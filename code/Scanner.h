@@ -20,7 +20,11 @@
 *************************************************************/
 
 #ifndef COMPILERS_H_
-#include "./Compilers.h"
+#include "Compilers.h"
+#endif
+
+#ifndef READER_H_
+#include "Reader.h"
 #endif
 
 #ifndef SCANNER_H_
@@ -47,18 +51,27 @@
 enum TOKENS {
   ERR_T,  /*  0: Error token */
   MNID_T, /*  1: Method name identifier token (start: !) */
-  STR_T,  /*  2: String literal token */
-  CH_T,   /*  3: Character token */
-  LPR_T,  /*  4: Left parenthesis token */
-  RPR_T,  /*  5: Right parenthesis token */
-  LBR_T,  /*  6: Left brace token */
-  RBR_T,  /*  7: Right brace token */
-  KW_T,   /*  8: Keyword token */
-  EOS_T,  /*  9: End of statement (semicolon) */
-  RTE_T,  /* 10: Run-time error token */
-  INL_T,  /* 11: Integer literal token */
-  SEOF_T, /* 12: Source end-of-file token */
-  COM_T,  /* 13: Comma */
+  KW_T,   /*  2: Keyword token */
+
+  INL_T, /*  3: Integer literal token */
+  FPL_T, /*  4: Floating point literal token*/
+  CH_T,  /*  5: Character literal token */
+  STR_T, /*  6: String literal token */
+
+  IVAR_T, /*  7: Integer variable token */
+  FVAR_T, /*  8: Floating point variable token */
+  CVAR_T, /*  9: Character variable token */
+  SVAR_T, /* 10: String variable token */
+
+  LPR_T, /* 11: Left parenthesis token */
+  RPR_T, /* 12: Right parenthesis token */
+  LBR_T, /* 13: Left brace token */
+  RBR_T, /* 14: Right brace token */
+  COM_T, /* 15: Comma */
+  EOS_T, /* 16: End of statement (semicolon) */
+
+  RTE_T, /* 17: Run-time error token */
+  SEOF_T /* 18: Source end-of-file token */
 };
 
 /* TO_DO: Operators token attributes */
@@ -75,13 +88,13 @@ typedef union TokenAttribute {
   LogOperator logicalOperator;    /* logical operator attribute code */
   EofOperator seofType;           /* source-end-of-file attribute code */
   nag_intg intValue;              /* integer literal attribute (value) */
-  nag_intg keywordIndex;          /* keyword index in the keyword table */
+  nag_float floatValue;           /* floating-point literal attribute (value) */
   nag_intg
       contentString; /* string literal offset from the beginning of the string
                         literal buffer (stringLiteralTable->content) */
-  nag_float floatValue;           /* floating-point literal attribute (value) */
-  nag_char characterContent;      /* Character Content from buffer */
-  nag_char idLexeme[VID_LEN + 1]; /* variable identifier token attribute */
+  nag_char characterContent;       /* Character Content from buffer */
+  nag_intg keywordIndex;           /* keyword index in the keyword table */
+  nag_char idLexeme[VID_LEN + 1];  /* variable identifier token attribute */
   nag_char errLexeme[ERR_LEN + 1]; /* error token attribite */
 } TokenAttribute;
 
@@ -126,6 +139,11 @@ typedef struct Token {
 /* These constants will be used on VID / MID function */
 #define MNIDPREFIX '!'
 
+#define IVARPREFIX '&'
+#define FVARPREFIX '%'
+#define CVARPREFIX '@'
+#define SVARPREFIX '$'
+
 /* TO_DO: Error states and illegal state */
 #define FS 100   /* Illegal state */
 #define ESWR 101 /* Error state with retract */
@@ -136,8 +154,8 @@ typedef struct Token {
 
 // remove errors
 static nag_intg transitionTable[][TABLE_COLUMNS] = {
-    /*   [A-z] , [0-9],    _,    !,    ",	 ', SEOF, other
-               L(0),  D(1), U(2), M(3), Q(4), C(5), E(6),  O(7) */
+    /*   [A-z] , [0-9],    _, &%@$!,    ",	 ', SEOF, other
+               L(0),  D(1), U(2),  M(3), Q(4), C(5), E(6),  O(7) */
     {1, ESNR, ESNR, ESNR, 4, 6, ESWR, ESNR},       // S0: NOAS
     {1, 1, 1, 2, 3, 3, 3, 3},                      // S1: NOAS
     {FS, FS, FS, FS, FS, FS, FS, FS},              // S2: ASNR (MVID)
@@ -225,11 +243,12 @@ Language keywords
 */
 
 /* TO_DO: Define the number of Keywords from the language */
-#define KWT_SIZE 9
+#define KWT_SIZE 10
 
 /* TO_DO: Define the list of keywords */
-static nag_char *keywordTable[KWT_SIZE] = {
-    "main", "int", "string", "char", "float", "if", "else if", "else", "loop"};
+static nag_char *keywordTable[KWT_SIZE] = {"data", "code",  "int", "string",
+                                           "char", "float", "if",  "else if",
+                                           "else", "loop"};
 
 /* NEW SECTION: About indentation */
 

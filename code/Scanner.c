@@ -37,6 +37,7 @@
 #include <stdlib.h> /* standard library functions and constants */
 #include <string.h> /* string functions */
 
+
 /* #define NDEBUG        to suppress assert() call */
 #include <assert.h> /* assert() prototype */
 
@@ -291,6 +292,18 @@ nag_intg nextClass(nag_char c) {
   case CHRCOL3:
     val = 3;
     break;
+  case IVARPREFIX:
+    val = 3;
+    break;
+  case FVARPREFIX:
+    val = 3;
+    break;
+  case CVARPREFIX:
+    val = 3;
+    break;
+  case SVARPREFIX:
+    val = 3;
+    break;
   case CHRCOL4:
     val = 4;
     break;
@@ -367,6 +380,22 @@ Token funcID(nag_char lexeme[]) {
     currentToken.code = MNID_T;
     isID = nag_TRUE;
     break;
+  case IVARPREFIX:
+    currentToken.code = IVAR_T;
+    isID = nag_TRUE;
+    break;
+  case FVARPREFIX:
+    currentToken.code = FVAR_T;
+    isID = nag_TRUE;
+    break;
+  case CVARPREFIX:
+    currentToken.code = CVAR_T;
+    isID = nag_TRUE;
+    break;
+  case SVARPREFIX:
+    currentToken.code = SVAR_T;
+    isID = nag_TRUE;
+    break;
   default:
     // Test Keyword
     currentToken = funcKEY(lexeme);
@@ -424,16 +453,17 @@ Token funcSL(nag_char lexeme[]) {
 /* TO_DO: Adjust the function for Keywords */
 
 Token funcKEY(nag_char lexeme[]) {
-
   Token currentToken = {0};
   nag_intg kwindex = -1, j = 0;
+
   for (j = 0; j < KWT_SIZE; j++)
-    if (!strcmp(lexeme, &keywordTable[j][0]))
+    if (!strncmp(lexeme, &keywordTable[j][0], strlen(lexeme) - 1))
       kwindex = j;
   if (kwindex != -1) {
     currentToken.code = KW_T;
     currentToken.attribute.codeType = kwindex;
   } else {
+
     currentToken = funcErr(lexeme);
   }
   return currentToken;
@@ -494,6 +524,18 @@ nag_void printToken(Token t) {
     break;
   case MNID_T:
     printf("MNID_T\t\t%s\n", t.attribute.idLexeme);
+    break;
+  case IVAR_T:
+    printf("IVAR_T\t\t%s\n", t.attribute.idLexeme);
+    break;
+  case FVAR_T:
+    printf("FVAR_T\t\t%s\n", t.attribute.idLexeme);
+    break;
+  case CVAR_T:
+    printf("CVAR_T\t\t%s\n", t.attribute.idLexeme);
+    break;
+  case SVAR_T:
+    printf("SVAR_T\t\t%s\n", t.attribute.idLexeme);
     break;
   case STR_T:
     printf("STR_T\t\t%d\t ", (nag_intg)t.attribute.codeType);

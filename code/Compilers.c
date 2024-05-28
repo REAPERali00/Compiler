@@ -63,46 +63,43 @@
 *************************************************************
 */
 
-nag_intg main(int argc, char** argv) {
-	nag_intg i;
-	printLogo();
-	if (DEBUG) {
-		for (i = 0; i < argc; ++i)
-			printf("argv[%d] = %s\n", i, argv[i]);
-	}
-	if (argc < 2) {
-		printf("%s%c%s%c%s%c%s", "OPTIONS:\n* [",
-			PGM_READER, "] - Reader\n* [",
-			PGM_SCANNER, "] - Scanner\n* [",
-			PGM_PARSER, "] - Parser\n");
-		return EXIT_FAILURE;
-	}
-	nag_char option = argv[1][0];
-	switch (option) {
-	case PGM_READER:
-		printf("%s%c%s", "\n[Option '", PGM_READER, "': Starting READER .....]\n\n");
-		mainReader(argc, argv);
-		break;
-		
-	case PGM_SCANNER:
-		printf("%s%c%s", "\n[Option '", PGM_SCANNER, "': Starting SCANNER ....]\n\n");
-		mainScanner(argc, argv);
-		break;
-		/*
-	
-	case PGM_PARSER:
-		printf("%s%c%s", "\n[Option '", PGM_PARSER, "': Starting PARSER .....]\n\n");
-		mainParser(argc, argv);
-		break;
-	*/
-	default:
-		printf("%s%c%s%c%s%c%s", "* OPTIONS:\n- [",
-			PGM_READER, "] - Reader\n- [",
-			PGM_SCANNER, "] - Scanner\n- [",
-			PGM_PARSER, "] - Parser\n");
-		break;
-	}
-	return EXIT_SUCCESS;
+nag_intg main(int argc, char **argv) {
+  nag_intg i;
+  printLogo();
+  if (DEBUG) {
+    for (i = 0; i < argc; ++i)
+      printf("argv[%d] = %s\n", i, argv[i]);
+  }
+  if (argc < 2) {
+    printf("%s%c%s%c%s%c%s", "OPTIONS:\n* [", PGM_READER, "] - Reader\n* [",
+           PGM_SCANNER, "] - Scanner\n* [", PGM_PARSER, "] - Parser\n");
+    return EXIT_FAILURE;
+  }
+  nag_char option = argv[1][0];
+  switch (option) {
+  case PGM_READER:
+    printf("%s%c%s", "\n[Option '", PGM_READER,
+           "': Starting READER .....]\n\n");
+    mainReader(argc, argv);
+    break;
+
+  case PGM_SCANNER:
+    printf("%s%c%s", "\n[Option '", PGM_SCANNER,
+           "': Starting SCANNER ....]\n\n");
+    mainScanner(argc, argv);
+    break;
+
+  case PGM_PARSER:
+    printf("%s%c%s", "\n[Option '", PGM_PARSER,
+           "': Starting PARSER .....]\n\n");
+    mainParser(argc, argv);
+    break;
+  default:
+    printf("%s%c%s%c%s%c%s", "* OPTIONS:\n- [", PGM_READER, "] - Reader\n- [",
+           PGM_SCANNER, "] - Scanner\n- [", PGM_PARSER, "] - Parser\n");
+    break;
+  }
+  return EXIT_SUCCESS;
 }
 
 /*
@@ -118,22 +115,25 @@ nag_intg main(int argc, char** argv) {
 *************************************************************
 */
 nag_void printLogo() {
-	/*
-	nag_char* strLogo = " _________________________________\n|                                 |\n| ........ nag LANGUAGE ......... |\n|     __    __    __    __        |\n|    /  \\  /  \\  /  \\  /  \\       |\n| __/  __\\/  __\\/  __\\/  __\\__    |\n| _/  /__/  /__/  /__/  /_____|   |\n|  \\_/ \\   / \\   / \\   / \\  \\___  |\n|       \\_/   \\_/   \\_/   \\___o_> |\n|                                 |\n| .. ALGONQUIN COLLEGE - 2022F .. |\n|_________________________________|\n";
-	printf("%s", strLogo);
-	*/
-	printf("%s%s%s%s%s%s%s%s%s%s%s%s",
-		" _________________________________ \n",
-		"|                                 |\n",
-		"| ....... 'nag' LANGUAGE ........ |\n",
-		"|     __    __    __    __        |\n",
-		"|    /  \\  /  \\  /  \\  /  \\       |\n",
-		"| __/  __\\/  __\\/  __\\/  __\\__    |\n",
-		"| _/  /__/  /__/  /__/  /_____|   |\n",
-		"|  \\_/ \\   / \\   / \\   / \\  \\___  |\n",
-		"|       \\_/   \\_/   \\_/   \\___o_> |\n",
-		"|                                 |\n",
-		"| .. ALGONQUIN COLLEGE - 2022F .. |\n",
-		"|_________________________________|\n"
-	);
+  /*
+  nag_char* strLogo = " _________________________________\n| |\n| ........ nag
+  LANGUAGE ......... |\n|     __    __    __    __        |\n|    /  \\  / \\  /
+  \\  /  \\       |\n| __/  __\\/  __\\/  __\\/  __\\__    |\n| _/  /__/  /__/
+  /__/  /_____|   |\n|  \\_/ \\   / \\   / \\   / \\  \\___  |\n|       \\_/
+  \\_/   \\_/   \\___o_> |\n|                                 |\n| .. ALGONQUIN
+  COLLEGE - 2022F .. |\n|_________________________________|\n"; printf("%s",
+  strLogo);
+  */
+  printf("%s%s%s%s%s%s%s%s%s%s%s%s", " _________________________________ \n",
+         "|                                 |\n",
+         "| ....... 'nag' LANGUAGE ........ |\n",
+         "|     __    __    __    __        |\n",
+         "|    /  \\  /  \\  /  \\  /  \\       |\n",
+         "| __/  __\\/  __\\/  __\\/  __\\__    |\n",
+         "| _/  /__/  /__/  /__/  /_____|   |\n",
+         "|  \\_/ \\   / \\   / \\   / \\  \\___  |\n",
+         "|       \\_/   \\_/   \\_/   \\___o_> |\n",
+         "|                                 |\n",
+         "| .. ALGONQUIN COLLEGE - 2022F .. |\n",
+         "|_________________________________|\n");
 }

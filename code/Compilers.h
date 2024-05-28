@@ -46,29 +46,29 @@
  * (see the progression: reader > scanner > parser).
  * ............................................................................
  */
- 
+
 /* Logical constants - adapt for your language */
-#define nag_TRUE  1
+#define nag_TRUE 1
 #define nag_FALSE 0
 
 /*
 ------------------------------------------------------------
 Data types definitions
 NOTE: Some types may not be directly used by your language,
-		but they can be necessary for conversions.
+                but they can be necessary for conversions.
 ------------------------------------------------------------
 */
 /* TO_DO: Define your typedefs */
-typedef char			nag_char;
-typedef int				nag_intg;
-typedef float			nag_float;
-typedef void			nag_void;
+typedef char nag_char;
+typedef int nag_intg;
+typedef float nag_float;
+typedef void nag_void;
 
-typedef unsigned char	nag_boln;
-typedef unsigned char	nag_byte;
+typedef unsigned char nag_boln;
+typedef unsigned char nag_byte;
 
-typedef long			nag_long;
-typedef double			nag_doub;
+typedef long nag_long;
+typedef double nag_doub;
 
 /*
 ------------------------------------------------------------
@@ -78,11 +78,7 @@ Programs:
 3: Parser - invokes MainParser code
 ------------------------------------------------------------
 */
-enum PROGRAMS {
-	PGM_READER	= 'R',
-	PGM_SCANNER = 'S',
-	PGM_PARSER	= 'P'
-};
+enum PROGRAMS { PGM_READER = 'R', PGM_SCANNER = 'S', PGM_PARSER = 'P' };
 
 /*
 ------------------------------------------------------------
@@ -90,11 +86,9 @@ Main functions signatures
 (Code will be updated during next assignments)
 ------------------------------------------------------------
 */
-nag_intg mainReader  (nag_intg argc, nag_char** argv);
-/*
-nag_intg mainScanner (nag_intg argc, nag_char** argv);
-nag_intg mainParser  (nag_intg argc, nag_char** argv);
-*/
+nag_intg mainReader(nag_intg argc, nag_char **argv);
+nag_intg mainScanner(nag_intg argc, nag_char **argv);
+nag_intg mainParser(nag_intg argc, nag_char **argv);
 nag_void printLogo();
 
 #endif

@@ -35,11 +35,11 @@
 #include <stdarg.h>
 
 #ifndef COMPILERS_H_
-#include "./buff/Compilers.h"
+#include "../Compilers.h"
 #endif
 
 #ifndef BUFFER_H_
-#include "./buff/Reader.h"
+#include "../buff/Reader.h"
 #endif
 
 #ifndef SCANNER_H_
