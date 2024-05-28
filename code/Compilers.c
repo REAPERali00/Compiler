@@ -7,7 +7,7 @@
 ************************************************************
  _________________________________
 |                                 |
-| ........ BOA LANGUAGE ......... |
+| ........ nag LANGUAGE ......... |
 |     __    __    __    __        |
 |    /  \  /  \  /  \  /  \       |
 | __/  __\/  __\/  __\/  __\__    |
@@ -24,7 +24,7 @@
 ************************************************************
 * File name: compilers.c
 * Compiler: MS Visual Studio 2022
-* Course: CST 8152 – Compilers, Lab Section: [011, 012, 013]
+* Course: CST 8152 ï¿½ Compilers, Lab Section: [011, 012, 013]
 * Assignment: A12, A22, A32.
 * Date: Sep 01 2022
 * Professor: Paulo Sousa
@@ -37,7 +37,7 @@
 #include <stdlib.h>
 
 #ifndef COMPILERS_H_
-#include "Compilers.h"
+#include "./Compilers.h"
 #endif
 
 /*
@@ -63,8 +63,8 @@
 *************************************************************
 */
 
-boa_intg main(int argc, char** argv) {
-	boa_intg i;
+nag_intg main(int argc, char** argv) {
+	nag_intg i;
 	printLogo();
 	if (DEBUG) {
 		for (i = 0; i < argc; ++i)
@@ -77,17 +77,19 @@ boa_intg main(int argc, char** argv) {
 			PGM_PARSER, "] - Parser\n");
 		return EXIT_FAILURE;
 	}
-	boa_char option = argv[1][0];
+	nag_char option = argv[1][0];
 	switch (option) {
 	case PGM_READER:
 		printf("%s%c%s", "\n[Option '", PGM_READER, "': Starting READER .....]\n\n");
 		mainReader(argc, argv);
 		break;
-	/*
+		
 	case PGM_SCANNER:
 		printf("%s%c%s", "\n[Option '", PGM_SCANNER, "': Starting SCANNER ....]\n\n");
 		mainScanner(argc, argv);
 		break;
+		/*
+	
 	case PGM_PARSER:
 		printf("%s%c%s", "\n[Option '", PGM_PARSER, "': Starting PARSER .....]\n\n");
 		mainParser(argc, argv);
@@ -115,15 +117,15 @@ boa_intg main(int argc, char** argv) {
 * Algorithm: -
 *************************************************************
 */
-boa_void printLogo() {
+nag_void printLogo() {
 	/*
-	boa_char* strLogo = " _________________________________\n|                                 |\n| ........ BOA LANGUAGE ......... |\n|     __    __    __    __        |\n|    /  \\  /  \\  /  \\  /  \\       |\n| __/  __\\/  __\\/  __\\/  __\\__    |\n| _/  /__/  /__/  /__/  /_____|   |\n|  \\_/ \\   / \\   / \\   / \\  \\___  |\n|       \\_/   \\_/   \\_/   \\___o_> |\n|                                 |\n| .. ALGONQUIN COLLEGE - 2022F .. |\n|_________________________________|\n";
+	nag_char* strLogo = " _________________________________\n|                                 |\n| ........ nag LANGUAGE ......... |\n|     __    __    __    __        |\n|    /  \\  /  \\  /  \\  /  \\       |\n| __/  __\\/  __\\/  __\\/  __\\__    |\n| _/  /__/  /__/  /__/  /_____|   |\n|  \\_/ \\   / \\   / \\   / \\  \\___  |\n|       \\_/   \\_/   \\_/   \\___o_> |\n|                                 |\n| .. ALGONQUIN COLLEGE - 2022F .. |\n|_________________________________|\n";
 	printf("%s", strLogo);
 	*/
 	printf("%s%s%s%s%s%s%s%s%s%s%s%s",
 		" _________________________________ \n",
 		"|                                 |\n",
-		"| ....... 'BOA' LANGUAGE ........ |\n",
+		"| ....... 'nag' LANGUAGE ........ |\n",
 		"|     __    __    __    __        |\n",
 		"|    /  \\  /  \\  /  \\  /  \\       |\n",
 		"| __/  __\\/  __\\/  __\\/  __\\__    |\n",

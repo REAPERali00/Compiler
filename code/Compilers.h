@@ -7,7 +7,7 @@
 ************************************************************
  _________________________________
 |                                 |
-| ........ BOA LANGUAGE ......... |
+| ........ nag LANGUAGE ......... |
 |     __    __    __    __        |
 |    /  \  /  \  /  \  /  \       |
 | __/  __\/  __\/  __\/  __\__    |
@@ -24,7 +24,7 @@
 ************************************************************
 * File name: compilers.h
 * Compiler: MS Visual Studio 2022
-* Course: CST 8152 – Compilers, Lab Section: [011, 012, 013]
+* Course: CST 8152 ï¿½ Compilers, Lab Section: [011, 012, 013]
 * Assignment: A12, A22, A32.
 * Date: Sep 01 2022
 * Professor: Paulo Sousa
@@ -48,8 +48,8 @@
  */
  
 /* Logical constants - adapt for your language */
-#define BOA_TRUE  1
-#define BOA_FALSE 0
+#define nag_TRUE  1
+#define nag_FALSE 0
 
 /*
 ------------------------------------------------------------
@@ -59,16 +59,16 @@ NOTE: Some types may not be directly used by your language,
 ------------------------------------------------------------
 */
 /* TO_DO: Define your typedefs */
-typedef char			boa_char;
-typedef int				boa_intg;
-typedef float			boa_real;
-typedef void			boa_void;
+typedef char			nag_char;
+typedef int				nag_intg;
+typedef float			nag_float;
+typedef void			nag_void;
 
-typedef unsigned char	boa_boln;
-typedef unsigned char	boa_byte;
+typedef unsigned char	nag_boln;
+typedef unsigned char	nag_byte;
 
-typedef long			boa_long;
-typedef double			boa_doub;
+typedef long			nag_long;
+typedef double			nag_doub;
 
 /*
 ------------------------------------------------------------
@@ -90,11 +90,11 @@ Main functions signatures
 (Code will be updated during next assignments)
 ------------------------------------------------------------
 */
-boa_intg mainReader  (boa_intg argc, boa_char** argv);
+nag_intg mainReader  (nag_intg argc, nag_char** argv);
 /*
-boa_intg mainScanner (boa_intg argc, boa_char** argv);
-boa_intg mainParser  (boa_intg argc, boa_char** argv);
+nag_intg mainScanner (nag_intg argc, nag_char** argv);
+nag_intg mainParser  (nag_intg argc, nag_char** argv);
 */
-boa_void printLogo();
+nag_void printLogo();
 
 #endif

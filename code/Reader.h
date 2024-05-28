@@ -7,7 +7,7 @@
 ************************************************************
  _________________________________
 |                                 |
-| ........ BOA LANGUAGE ......... |
+| ........ nag LANGUAGE ......... |
 |     __    __    __    __        |
 |    /  \  /  \  /  \  /  \       |
 | __/  __\/  __\/  __\/  __\__    |
@@ -24,7 +24,7 @@
 ************************************************************
 * File name: Reader.h
 * Compiler: MS Visual Studio 2022
-* Course: CST 8152 – Compilers, Lab Section: [011, 012, 013]
+* Course: CST 8152 ï¿½ Compilers, Lab Section: [011, 012, 013]
 * Assignment: A12.
 * Date: Sep 01 2022
 * Professor: Paulo Sousa
@@ -76,62 +76,64 @@ enum READER_MODE {
 #define READER_DEFAULT_SIZE			250		/* default initial buffer reader capacity */
 #define READER_DEFAULT_INCREMENT	10		/* default increment factor */
 
-/* Add your bit-masks constant definitions here - Defined for BOA */
+/* Add your bit-masks constant definitions here - Defined for nag */
 /* BITS                                (7654.3210) */
 #define READER_DEFAULT_FLAG 0x00 	/* (0000.0000)_2 = (000)_10 */
-/* TO_DO: BIT 3: FUL = Full */
-/* TO_DO: BIT 2: EMP: Empty */
-/* TO_DO: BIT 1: REL = Relocation */
-/* TO_DO: BIT 0: END = EndOfBuffer */
+
+#define READER_FUL_FLAG 0x08
+#define	READER_EMP_FLAG 0x04
+#define	READER_REL_FLAG 0x02
+#define	READER_END_FLAG 0x01
+
 
 #define NCHAR				128			/* Chars from 0 to 127 */
 
 /* STRUCTURES DEFINITION: SUFIXED BY LANGUAGE NAME (SOFIA) .................................. */
 
-/* TODO: Adjust datatypes */
+/* TODO: Adjust datatypes */ //DO LATER
 
 /* Offset declaration */
 typedef struct position {
-	boa_intg mark;			/* the offset to the mark position (in chars) */
-	boa_intg read;			/* the offset to the get a char position (in chars) */
-	boa_intg wrte;			/* the offset to the add chars (in chars) */
+	nag_intg mark;			/* the offset to the mark position (in chars) */
+	nag_intg read;			/* the offset to the get a char position (in chars) */
+	nag_intg wrte;			/* the offset to the add chars (in chars) */
 } Position;
 
 /* Buffer structure */
 typedef struct bufferReader {
-	boa_char*	content;			/* pointer to the beginning of character array (character buffer) */
-	boa_intg	size;				/* current dynamic memory size (in bytes) allocated to character buffer */
-	boa_intg	increment;			/* character array increment factor */
-	boa_intg	mode;				/* operational mode indicator */
-	boa_byte	flags;				/* contains character array reallocation flag and end-of-buffer flag */
+	nag_char*	content;			/* pointer to the beginning of character array (character buffer) */
+	nag_intg	size;				/* current dynamic memory size (in bytes) allocated to character buffer */
+	nag_intg	increment;			/* character array increment factor */
+	nag_intg	mode;				/* operational mode indicator */
+	nag_byte	flags;				/* contains character array floatlocation flag and end-of-buffer flag */
 	Position	position;			/* Offset / position field */
-	boa_intg	histogram[NCHAR];	/* Statistics of chars */
+	nag_intg	histogram[NCHAR];	/* Statistics of chars */
 } BufferReader, * ReaderPointer;
 
 /* FUNCTIONS DECLARATION:  .................................. */
 /* General Operations */
-ReaderPointer	readerCreate		(boa_intg, boa_intg, boa_intg);
-ReaderPointer	readerAddChar		(ReaderPointer const, boa_char);
-boa_boln		readerClear		    (ReaderPointer const);
-boa_boln		readerFree		    (ReaderPointer const);
-boa_boln		readerIsFull		(ReaderPointer const);
-boa_boln		readerIsEmpty		(ReaderPointer const);
-boa_boln		readerSetMark		(ReaderPointer const, boa_intg);
-boa_intg		readerPrint		    (ReaderPointer const);
-boa_intg		readerLoad			(ReaderPointer const, FILE* const);
-boa_boln		readerRecover		(ReaderPointer const);
-boa_boln		readerRetract		(ReaderPointer const);
-boa_boln		readerRestore		(ReaderPointer const);
+ReaderPointer	readerCreate		(nag_intg, nag_intg, nag_intg);
+ReaderPointer	readerAddChar		(ReaderPointer const, nag_char);
+nag_boln		readerClear		    (ReaderPointer const);
+nag_boln		readerFree		    (ReaderPointer const);
+nag_boln		readerIsFull		(ReaderPointer const);
+nag_boln		readerIsEmpty		(ReaderPointer const);
+nag_boln		readerSetMark		(ReaderPointer const, nag_intg);
+nag_intg		readerPrint		    (ReaderPointer const);
+nag_intg		readerLoad			(ReaderPointer const, FILE* const);
+nag_boln		readerRecover		(ReaderPointer const);
+nag_boln		readerRetract		(ReaderPointer const);
+nag_boln		readerRestore		(ReaderPointer const);
 /* Getters */
-boa_char		readerGetChar		(ReaderPointer const);
-boa_char*		readerGetContent	(ReaderPointer const, boa_intg);
-boa_intg		readerGetPosRead	(ReaderPointer const);
-boa_intg		readerGetPosWrte	(ReaderPointer const);
-boa_intg		readerGetPosMark	(ReaderPointer const);
-boa_intg		readerGetSize		(ReaderPointer const);
-boa_intg		readerGetInc		(ReaderPointer const);
-boa_intg		readerGetMode		(ReaderPointer const);
-boa_byte		readerGetFlags		(ReaderPointer const);
-boa_intg		readerShowStat		(ReaderPointer const);
+nag_char		readerGetChar		(ReaderPointer const);
+nag_char*		readerGetContent	(ReaderPointer const, nag_intg);
+nag_intg		readerGetPosRead	(ReaderPointer const);
+nag_intg		readerGetPosWrte	(ReaderPointer const);
+nag_intg		readerGetPosMark	(ReaderPointer const);
+nag_intg		readerGetSize		(ReaderPointer const);
+nag_intg		readerGetInc		(ReaderPointer const);
+nag_intg		readerGetMode		(ReaderPointer const);
+nag_byte		readerGetFlags		(ReaderPointer const);
+nag_intg		readerShowStat		(ReaderPointer const);
 
 #endif
