@@ -1,1 +1,0 @@
-/usr/bin/cc CMakeFiles/BoaCompiler.dir/code/Compilers.c.o CMakeFiles/BoaCompiler.dir/code/MainReader.c.o CMakeFiles/BoaCompiler.dir/code/Reader.c.o -o BoaCompiler 

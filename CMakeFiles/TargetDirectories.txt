@@ -1,3 +1,0 @@
-/home/alireza/Documents/Compiler/CMakeFiles/BoaCompiler.dir
-/home/alireza/Documents/Compiler/CMakeFiles/edit_cache.dir
-/home/alireza/Documents/Compiler/CMakeFiles/rebuild_cache.dir
