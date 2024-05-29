@@ -88,7 +88,7 @@ Main functions signatures
 */
 nag_intg mainReader(nag_intg argc, nag_char **argv);
 nag_intg mainScanner(nag_intg argc, nag_char **argv);
-nag_intg mainParser(nag_intg argc, nag_char **argv);
+/*nag_intg mainParser(nag_intg argc, nag_char **argv);*/
 nag_void printLogo();
 
 #endif
