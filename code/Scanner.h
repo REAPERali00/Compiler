@@ -45,34 +45,32 @@
 #define ERR_LEN 40 /* error message length */
 #define NUM_LEN 5  /* maximum number of digits for IL */
 
-#define RTE_CODE -1 /* Value for run-time error */
+#define RTE_CODE 1 /* Value for run-time error */
+
+/* TO_DO: Define the number of tokens */
+#define NUM_TOKENS 13
 
 /* TO_DO: Define Token codes - Create your token classes */
 enum TOKENS {
   ERR_T,  /*  0: Error token */
-  MNID_T, /*  1: Method name identifier token (start: !) */
-  KW_T,   /*  2: Keyword token */
-
-  INL_T, /*  3: Integer literal token */
-  FPL_T, /*  4: Floating point literal token*/
-  CH_T,  /*  5: Character literal token */
-  STR_T, /*  6: String literal token */
-
-  IVAR_T, /*  7: Integer variable token */
-  FVAR_T, /*  8: Floating point variable token */
-  CVAR_T, /*  9: Character variable token */
-  SVAR_T, /* 10: String variable token */
-
-  LPR_T, /* 11: Left parenthesis token */
-  RPR_T, /* 12: Right parenthesis token */
-  LBR_T, /* 13: Left brace token */
-  RBR_T, /* 14: Right brace token */
-  COM_T, /* 15: Comma */
-  EOS_T, /* 16: End of statement (semicolon) */
-
-  RTE_T, /* 17: Run-time error token */
-  SEOF_T /* 18: Source end-of-file token */
+  MNID_T, /*  1: Method name identifier token (start: &) */
+  INL_T,  /*  2: Integer literal token */
+  STR_T,  /*  3: String literal token */
+  LPR_T,  /*  4: Left parenthesis token */
+  RPR_T,  /*  5: Right parenthesis token */
+  LBR_T,  /*  6: Left brace token */
+  RBR_T,  /*  7: Right brace token */
+  KW_T,   /*  8: Keyword token */
+  EOS_T,  /*  9: End of statement (semicolon) */
+  RTE_T,  /* 10: Run-time error token */
+  SEOF_T, /* 11: Source end-of-file token */
+  CMT_T   /* 12: Comment token */
 };
+
+/* TO_DO: Define the list of keywords */
+static nag_str tokenStrTable[NUM_TOKENS] = {
+    "ERR_T", "MNID_T", "INL_T", "STR_T", "LPR_T",  "RPR_T", "LBR_T",
+    "RBR_T", "KW_T",   "EOS_T", "RTE_T", "SEOF_T", "CMT_T"};
 
 /* TO_DO: Operators token attributes */
 typedef enum ArithmeticOperators { OP_ADD, OP_SUB, OP_MUL, OP_DIV } AriOperator;
@@ -82,39 +80,45 @@ typedef enum SourceEndOfFile { SEOF_0, SEOF_255 } EofOperator;
 
 /* TO_DO: Data structures for declaring the token and its attributes */
 typedef union TokenAttribute {
-  nag_intg codeType;              /* integer attributes accessor */
+  nag_i codeType;                 /* integer attributes accessor */
   AriOperator arithmeticOperator; /* arithmetic operator attribute code */
   RelOperator relationalOperator; /* relational operator attribute code */
   LogOperator logicalOperator;    /* logical operator attribute code */
   EofOperator seofType;           /* source-end-of-file attribute code */
-  nag_intg intValue;              /* integer literal attribute (value) */
-  nag_float floatValue;           /* floating-point literal attribute (value) */
-  nag_intg
-      contentString; /* string literal offset from the beginning of the string
-                        literal buffer (stringLiteralTable->content) */
-  nag_char characterContent;       /* Character Content from buffer */
-  nag_intg keywordIndex;           /* keyword index in the keyword table */
-  nag_char idLexeme[VID_LEN + 1];  /* variable identifier token attribute */
-  nag_char errLexeme[ERR_LEN + 1]; /* error token attribite */
+  nag_i intValue;                 /* integer literal attribute (value) */
+  nag_i keywordIndex;             /* keyword index in the keyword table */
+  nag_i contentString; /* string literal offset from the beginning of the string
+                          literal buffer (stringLiteralTable->content) */
+  nag_fl floatValue;   /* floating-point literal attribute (value) */
+  nag_ch idLexeme[VID_LEN + 1];  /* variable identifier token attribute */
+  nag_ch errLexeme[ERR_LEN + 1]; /* error token attribite */
 } TokenAttribute;
 
 /* TO_DO: Should be used if no symbol table is implemented */
 typedef struct idAttibutes {
-  nag_byte flags; /* Flags information */
+  nag_bt flags; /* Flags information */
   union {
-    nag_intg intValue;       /* Integer value */
-    nag_float floatValue;    /* Float value */
-    nag_char *stringContent; /* String value */
+    nag_i intValue;        /* Integer value */
+    nag_fl floatValue;     /* Float value */
+    nag_str stringContent; /* String value */
+    nag_ch charContent;
+    nag_bl boolValue;
+    nag_bt byteValue;
   } values;
 } IdAttibutes;
 
 /* Token declaration */
 typedef struct Token {
-  nag_intg code;            /* token code */
+  nag_i code;               /* token code */
   TokenAttribute attribute; /* token attribute */
   IdAttibutes idAttribute;  /* not used in this scanner implementation - for
                                further use */
 } Token;
+
+/* Scanner */
+typedef struct scannerData {
+  nag_i scanHistogram[NUM_TOKENS]; /* Statistics of chars */
+} ScannerData, *pScanData;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -123,51 +127,66 @@ typedef struct Token {
 #define CHARSEOF255 0xFF
 
 /*  Special case tokens processed separately one by one in the token-driven part
- * of the scanner
- *  '=' , ' ' , '(' , ')' , '{' , '}' , == , <> , '>' , '<' , ';',
- *  white space, #comment\n , ',' , ';' , '-' , '+' , '*' , '/', # ,
- *  .&., .|. , .!. , SEOF.
- */
+ * of the scanner: LPR_T, RPR_T, LBR_T, RBR_T, EOS_T, SEOF_T and special chars
+ * used for tokenis include _, & and ' */
 
 /* TO_DO: Define lexeme FIXED classes */
 /* These constants will be used on nextClass */
-#define CHRCOL2 '_'
-#define CHRCOL3 '!'
-#define CHRCOL4 '\"'
-#define CHRCOL5 '\''
+#define CHRCOL0 '#'
+#define CHRCOL1 '{'
+#define CHRCOL2 '}'
+#define CHRCOL3 '$'
+#define CHRCOL4 '%'
+#define CHRCOL5 ';'
+#define CHRCOL6 '+'
+#define CHRCOL7 '-'
+#define CHRCOL8 '*'
+#define CHRCOL9 '('
+#define CHRCOL10 ')'
+#define CHRCOL11 '!'
+#define CHRCOL12 '\"'
+#define CHRCOL13 '&'
+#define CHRCOL14 '<'
+#define CHRCOL15 '>'
+#define CHRCOL16 '^'
+
+// Multi-character symbols like '==', '<>', and '=' cannot be directly defined
+// as a macro value in this context.
 
 /* These constants will be used on VID / MID function */
-#define MNIDPREFIX '!'
-
-#define IVARPREFIX '&'
-#define FVARPREFIX '%'
-#define CVARPREFIX '@'
-#define SVARPREFIX '$'
+#define MNID_SUF '&'
+#define COMM_SYM '#'
 
 /* TO_DO: Error states and illegal state */
+#define ESNR 100 /* Error state with no retract */
+#define ESWR 100 /* Error state with retract */
 #define FS 100   /* Illegal state */
-#define ESWR 101 /* Error state with retract */
-#define ESNR 102 /* Error state with no retract */
+#define ES 100   /* Error state */
 
-/* TO_DO: State transition table definition */
-#define TABLE_COLUMNS 8
+/* Expanded State transition table definition */
+#define NUM_STATES 16   // Updated number of states
+#define CHAR_CLASSES 10 // Updated number of character classes
 
-// remove errors
-static nag_intg transitionTable[][TABLE_COLUMNS] = {
-    /*   [A-z] , [0-9],    _, &%@$!,    ",	 ', SEOF, other
-               L(0),  D(1), U(2),  M(3), Q(4), C(5), E(6),  O(7) */
-    {1, ESNR, ESNR, ESNR, 4, 6, ESWR, ESNR},       // S0: NOAS
-    {1, 1, 1, 2, 3, 3, 3, 3},                      // S1: NOAS
-    {FS, FS, FS, FS, FS, FS, FS, FS},              // S2: ASNR (MVID)
-    {FS, FS, FS, FS, FS, FS, FS, FS},              // S3: ASWR (KEY)
-    {4, 4, 4, 4, 5, 4, ESWR, 4},                   // S4: NOAS
-    {FS, FS, FS, FS, FS, FS, FS, FS},              // S5: ASNR (SL)
-    {7, 7, 7, 7, 7, 8, ESWR, 7},                   // S6: NOAS
-    {ESNR, ESNR, ESNR, ESNR, ESNR, 8, ESWR, ESNR}, // S7: NOAS
-    {FS, FS, FS, FS, FS, FS, FS, FS},              // S8: ASNR (CH)
-    {FS, FS, FS, FS, FS, FS, FS, FS},              // S9: ASNR (ES)
-    {FS, FS, FS, FS, FS, FS, FS, FS}               // S10: ASWR (ER)
-};
+/* Expanded Transition table - type of states defined in a separate table */
+static nag_i transitionTable[NUM_STATES][CHAR_CLASSES] = {
+    /*     L(0),  D(1),  U(2), B1(3),  Q(4), QQ(5),  S(6),  P(7), V_id(8),  O(9)
+     */
+    /* S0 */ {1, 11, ES, ES, 8, 4, 6, ES, ES, ES},
+    /* S1 */ {1, 1, 1, 2, 3, 3, 3, 3, 5, 3},
+    /* S2 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
+    /* S3 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
+    /* S4 */ {4, 4, 4, 4, 4, 15, 4, 4, 4, 4},
+    /* S5 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
+    /* S6 */ {6, 6, 6, 6, 6, 6, 7, 6, 6, 6},
+    /* S7 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
+    /* S8 */ {9, 9, 9, 9, ES, 9, 9, 9, 9, 9},
+    /* S9 */ {ES, ES, ES, ES, 10, ES, ES, ES, ES, ES},
+    /* S10 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
+    /* S11 */ {ES, 11, ES, 12, ES, ES, 12, 13, ES, 12},
+    /* S12 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
+    /* S13 */ {ES, 13, ES, 14, ES, ES, 14, ES, ES, 14},
+    /* S14 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
+    /* S15 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS}};
 
 /* Define accepting states types */
 #define NOFS 0 /* not accepting state */
@@ -175,7 +194,7 @@ static nag_intg transitionTable[][TABLE_COLUMNS] = {
 #define FSWR 2 /* accepting state with retract */
 
 /* TO_DO: Define list of acceptable states */
-static nag_intg stateType[] = {
+static nag_i stateType[NUM_STATES] = {
     NOFS, /* 00 */
     NOFS, /* 01 */
     FSNR, /* 02 (MID) - Methods */
@@ -183,10 +202,9 @@ static nag_intg stateType[] = {
     NOFS, /* 04 */
     FSNR, /* 05 (SL) */
     NOFS, /* 06 */
-    NOFS, /* 07 */
-    FSNR, /* 08 (CH)*/
-    FSNR, /* 09 (Err1 - no retract) */
-    FSWR  /* 010 (Err2 - retract) */
+    FSNR, /* 07 (COM) */
+    FSNR, /* 08 (Err1 - no retract) */
+    FSWR  /* 09 (Err2 - retract) */
 };
 
 /*
@@ -196,25 +214,28 @@ TO_DO: Adjust your functions'definitions
 */
 
 /* Static (local) function  prototypes */
-nag_intg startScanner(ReaderPointer psc_buf);
-static nag_intg nextClass(nag_char c);         /* character class function */
-static nag_intg nextState(nag_intg, nag_char); /* state machine function */
+nag_i startScanner(ReaderPointer psc_buf);
+static nag_i nextClass(nag_ch c);      /* character class function */
+static nag_i nextState(nag_i, nag_ch); /* state machine function */
+void printScannerData(ScannerData scData);
+Token tokenizer(void);
 
-/*
+/*se
 -------------------------------------------------
 Automata definitions
 -------------------------------------------------
 */
 
 /* TO_DO: Pointer to function (of one char * argument) returning Token */
-typedef Token (*PTR_ACCFUN)(nag_char *lexeme);
+typedef Token (*PTR_ACCFUN)(nag_str lexeme);
 
 /* Declare accepting states functions */
-Token funcSL(nag_char lexeme[]);
-Token funcCH(nag_char lexeme[]);
-Token funcID(nag_char lexeme[]);
-Token funcKEY(nag_char lexeme[]);
-Token funcErr(nag_char lexeme[]);
+Token funcSL(nag_str lexeme);
+Token funcIL(nag_str lexeme);
+Token funcID(nag_str lexeme);
+Token funcCMT(nag_str lexeme);
+Token funcKEY(nag_str lexeme);
+Token funcErr(nag_str lexeme);
 
 /*
  * Accepting function (action) callback table (array) definition
@@ -222,7 +243,7 @@ Token funcErr(nag_char lexeme[]);
  */
 
 /* TO_DO: Define final state table */
-static PTR_ACCFUN finalStateTable[] = {
+static PTR_ACCFUN finalStateTable[NUM_STATES] = {
     NULL,    /* -    [00] */
     NULL,    /* -    [01] */
     funcID,  /* MNID	[02] */
@@ -230,10 +251,9 @@ static PTR_ACCFUN finalStateTable[] = {
     NULL,    /* -    [04] */
     funcSL,  /* SL   [05] */
     NULL,    /* -    [06] */
-    NULL,    /* -    [07] */
-    funcCH,  /* CH   [08] */
-    funcErr, /* ERR1 [09] */
-    funcErr  /* ERR2 [010] */
+    funcCMT, /* COM  [07] */
+    funcErr, /* ERR1 [06] */
+    funcErr  /* ERR2 [07] */
 };
 
 /*
@@ -243,12 +263,23 @@ Language keywords
 */
 
 /* TO_DO: Define the number of Keywords from the language */
-#define KWT_SIZE 10
+#define KWT_SIZE 12
 
 /* TO_DO: Define the list of keywords */
-static nag_char *keywordTable[KWT_SIZE] = {"data", "code",  "int", "string",
-                                           "char", "float", "if",  "else if",
-                                           "else", "loop"};
+static nag_str keywordTable[KWT_SIZE] = {
+    "main",    /* KW00 */
+    "data",    /* KW01 */
+    "code",    /* KW02 */
+    "num",     /* KW03 */
+    "real",    /* KW04 */
+    "string",  /* KW05 */
+    "char",    /* KW06 */
+    "if",      /* KW07 */
+    "else if", /* KW08 */
+    "else",    /* KW09 */
+    "during",  /* KW10 */
+    "do"       /* KW11 */
+};
 
 /* NEW SECTION: About indentation */
 
@@ -260,10 +291,16 @@ static nag_char *keywordTable[KWT_SIZE] = {"data", "code",  "int", "string",
 
 /* TO_DO: Should be used if no symbol table is implemented */
 typedef struct languageAttributes {
-  nag_char indentationCharType;
-  nag_intg indentationCurrentPos;
+  nag_ch indentationCharType;
+  nag_i indentationCurrentPos;
   /* TO_DO: Include any extra attribute to be used in your scanner (OPTIONAL and
    * FREE) */
 } LanguageAttributes;
+
+/* Number of errors */
+nag_i numScannerErrors;
+
+/* Scanner data */
+ScannerData scData;
 
 #endif

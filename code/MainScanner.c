@@ -34,7 +34,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-
 #ifndef COMPILERS_H_
 #include "./Compilers.h"
 #endif
@@ -63,21 +62,21 @@
 /* Global objects - variables (used in other codes as external) */
 ReaderPointer
     stringLiteralTable; /* This buffer implements String Literal Table */
-nag_intg errorNumber;   /* Run-time error number = 0 by default (ANSI) */
+nag_i errorNumber;      /* Run-time error number = 0 by default (ANSI) */
 
 /* External objects */
-extern nag_intg line; /* Source code line numbers - defined in scanner.c */
-extern Token tokenizer(sofia_nul);
+extern nag_i line; /* Source code line numbers - defined in scanner.c */
+extern Token tokenizer();
 
 /*
  * -------------------------------------------------------------
  *  Function declarations
  * -------------------------------------------------------------
  */
-nag_void printScannerError(nag_char *fmt, ...);
-nag_void displayScanner(BufferReader *ptrBuffer);
-nag_long getScannerFilesize(nag_char *fname);
-nag_void printToken(Token t);
+nag_v printScannerError(nag_ch *fmt, ...);
+nag_v displayScanner(BufferReader *ptrBuffer);
+nag_l getScannerFilesize(nag_ch *fname);
+nag_v printToken(Token t);
 
 /*
 ************************************************************
@@ -89,12 +88,12 @@ nag_void printToken(Token t);
 ***********************************************************
 */
 
-nag_intg mainScanner(nag_intg argc, nag_char **argv) {
+nag_i mainScanner(nag_i argc, nag_ch **argv) {
 
   ReaderPointer sourceBuffer; /* Pointer to input (source) buffer */
   FILE *fileHandler;          /* Input file handle */
   Token currentToken;         /* Token produced by the scanner */
-  nag_intg loadSize = 0;      /* The size of the file loaded in the buffer */
+  nag_i loadSize = 0;         /* The size of the file loaded in the buffer */
 
   /* Check for correct arrguments - source file name */
   if (argc <= 2) {
@@ -199,7 +198,7 @@ nag_intg mainScanner(nag_intg argc, nag_char **argv) {
 ***********************************************************
 */
 
-nag_void printScannerError(nag_char *fmt, ...) {
+nag_v printScannerError(nag_ch *fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
   (void)vfprintf(stderr, fmt, ap);
@@ -217,7 +216,7 @@ nag_void printScannerError(nag_char *fmt, ...) {
 ***********************************************************
 */
 
-nag_void displayScanner(BufferReader *ptrBuffer) {
+nag_v displayScanner(BufferReader *ptrBuffer) {
   printf("\nPrinting buffer parameters:\n\n");
   printf("The capacity of the buffer is:  %d\n", readerGetSize(ptrBuffer));
   printf("The current size of the buffer is:  %d\n",
@@ -237,9 +236,9 @@ nag_void displayScanner(BufferReader *ptrBuffer) {
  ***********************************************************
  */
 
-nag_long getScannerFilesize(nag_char *fname) {
+nag_l getScannerFilesize(nag_ch *fname) {
   FILE *fileInput;
-  nag_long fileLength;
+  nag_l fileLength;
   fileInput = fopen(fname, "r");
   if (fileInput == NULL) {
     printScannerError("%s%s", "Cannot open file: ", fname);

@@ -63,8 +63,8 @@
 *************************************************************
 */
 
-nag_intg main(int argc, char **argv) {
-  nag_intg i;
+nag_i main(int argc, char **argv) {
+  nag_i i;
   printLogo();
   if (DEBUG) {
     for (i = 0; i < argc; ++i)
@@ -75,7 +75,7 @@ nag_intg main(int argc, char **argv) {
            PGM_SCANNER, "] - Scanner\n* [", PGM_PARSER, "] - Parser\n");
     return EXIT_FAILURE;
   }
-  nag_char option = argv[1][0];
+  nag_ch option = argv[1][0];
   switch (option) {
   case PGM_READER:
     printf("%s%c%s", "\n[Option '", PGM_READER,
@@ -114,9 +114,9 @@ nag_intg main(int argc, char **argv) {
 * Algorithm: -
 *************************************************************
 */
-nag_void printLogo() {
+nag_v printLogo() {
   /*
-  nag_char* strLogo = " _________________________________\n| |\n| ........ nag
+  nag_ch* strLogo = " _________________________________\n| |\n| ........ nag
   LANGUAGE ......... |\n|     __    __    __    __        |\n|    /  \\  / \\  /
   \\  /  \\       |\n| __/  __\\/  __\\/  __\\/  __\\__    |\n| _/  /__/  /__/
   /__/  /_____|   |\n|  \\_/ \\   / \\   / \\   / \\  \\___  |\n|       \\_/

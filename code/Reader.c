@@ -71,7 +71,7 @@
 *************************************************************
 */
 
-ReaderPointer readerCreate(nag_intg size, nag_intg increment, nag_intg mode) {
+ReaderPointer readerCreate(nag_i size, nag_i increment, nag_i mode) {
   ReaderPointer readerPointer;
 
   // possible error: if only one is null, all will reset to default. if not the
@@ -86,7 +86,7 @@ ReaderPointer readerCreate(nag_intg size, nag_intg increment, nag_intg mode) {
   if (!readerPointer)
     return NULL;
 
-  readerPointer->content = (nag_char *)malloc(size);
+  readerPointer->content = (nag_ch *)malloc(size);
   if (!readerPointer->content)
     return NULL;
 
@@ -114,16 +114,16 @@ ReaderPointer readerCreate(nag_intg size, nag_intg increment, nag_intg mode) {
 *************************************************************
 */
 
-ReaderPointer readerAddChar(ReaderPointer const readerPointer, nag_char ch) {
-  nag_char *tempReader = NULL;
-  nag_intg newSize = 0;
+ReaderPointer readerAddChar(ReaderPointer const readerPointer, nag_ch ch) {
+  nag_ch *tempReader = NULL;
+  nag_i newSize = 0;
 
   if (!readerPointer || ch > NCHAR)
     return NULL;
 
   /* TO_DO: Reset realocation */
 
-  if (readerPointer->position.wrte * (nag_intg)sizeof(nag_char) >=
+  if (readerPointer->position.wrte * (nag_i)sizeof(nag_ch) >=
       readerPointer->size) {
 
     readerPointer->flags = readerPointer->flags | READER_FUL_FLAG;
@@ -178,7 +178,7 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, nag_char ch) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_boln readerClear(ReaderPointer const readerPointer) {
+nag_bl readerClear(ReaderPointer const readerPointer) {
   /* TO_DO: Defensive programming */
   /* TO_DO: Adjust flags original */
   if (!readerPointer)
@@ -211,7 +211,7 @@ nag_boln readerClear(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_boln readerFree(ReaderPointer const readerPointer) {
+nag_bl readerFree(ReaderPointer const readerPointer) {
   if (!readerPointer)
     return nag_FALSE;
   /* TO_DO: Free pointers */
@@ -235,7 +235,7 @@ nag_boln readerFree(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_boln readerIsFull(ReaderPointer const readerPointer) {
+nag_bl readerIsFull(ReaderPointer const readerPointer) {
   /* TO_DO: Defensive programming */
   /* TO_DO: Check flag if buffer is FUL */
   if (!readerPointer)
@@ -261,7 +261,7 @@ nag_boln readerIsFull(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_boln readerIsEmpty(ReaderPointer const readerPointer) {
+nag_bl readerIsEmpty(ReaderPointer const readerPointer) {
   /* TO_DO: Defensive programming */
   /* TO_DO: Check flag if buffer is EMP */
   if (!readerPointer)
@@ -288,7 +288,7 @@ nag_boln readerIsEmpty(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_boln readerSetMark(ReaderPointer const readerPointer, nag_intg mark) {
+nag_bl readerSetMark(ReaderPointer const readerPointer, nag_i mark) {
   /* TO_DO: Defensive programming */
   if (!readerPointer || mark < 0 || mark > readerPointer->position.wrte)
     return nag_FALSE;
@@ -311,9 +311,9 @@ nag_boln readerSetMark(ReaderPointer const readerPointer, nag_intg mark) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_intg readerPrint(ReaderPointer const readerPointer) {
-  nag_intg cont = 0;
-  nag_char c;
+nag_i readerPrint(ReaderPointer const readerPointer) {
+  nag_i cont = 0;
+  nag_ch c;
   if (!readerPointer)
     return cont;
   /* TO_DO: Defensive programming (including invalid chars) */
@@ -345,15 +345,15 @@ nag_intg readerPrint(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_intg readerLoad(ReaderPointer const readerPointer,
-                    FILE *const fileDescriptor) {
-  nag_intg size = 0;
-  nag_char c;
+nag_i readerLoad(ReaderPointer const readerPointer,
+                 FILE *const fileDescriptor) {
+  nag_i size = 0;
+  nag_ch c;
   /* TO_DO: Defensive programming */
   if (!readerPointer || !fileDescriptor)
     return READER_ERROR;
 
-  c = (nag_char)fgetc(fileDescriptor);
+  c = (nag_ch)fgetc(fileDescriptor);
   while (!feof(fileDescriptor)) {
     if (!readerAddChar(readerPointer, c)) {
       ungetc(c, fileDescriptor);
@@ -380,7 +380,7 @@ nag_intg readerLoad(ReaderPointer const readerPointer,
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_boln readerRecover(ReaderPointer const readerPointer) {
+nag_bl readerRecover(ReaderPointer const readerPointer) {
   /* TO_DO: Defensive programming */
   if (!readerPointer)
     return nag_FALSE;
@@ -406,7 +406,7 @@ nag_boln readerRecover(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_boln readerRetract(ReaderPointer const readerPointer) {
+nag_bl readerRetract(ReaderPointer const readerPointer) {
   /* TO_DO: Defensive programming */
   if (!readerPointer)
     return nag_FALSE;
@@ -432,7 +432,7 @@ nag_boln readerRetract(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_boln readerRestore(ReaderPointer const readerPointer) {
+nag_bl readerRestore(ReaderPointer const readerPointer) {
   /* TO_DO: Defensive programming */
   if (!readerPointer)
     return nag_FALSE;
@@ -455,7 +455,7 @@ nag_boln readerRestore(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_char readerGetChar(ReaderPointer const readerPointer) {
+nag_ch readerGetChar(ReaderPointer const readerPointer) {
   /* TO_DO: Defensive programming */
   if (!readerPointer)
     return NULL;
@@ -489,7 +489,7 @@ nag_char readerGetChar(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_char *readerGetContent(ReaderPointer const readerPointer, nag_intg pos) {
+nag_ch *readerGetContent(ReaderPointer const readerPointer, nag_i pos) {
   /* TO_DO: Defensive programming */
   if (!readerPointer)
     return NULL;
@@ -513,7 +513,7 @@ nag_char *readerGetContent(ReaderPointer const readerPointer, nag_intg pos) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_intg readerGetPosRead(ReaderPointer const readerPointer) {
+nag_i readerGetPosRead(ReaderPointer const readerPointer) {
   /* TO_DO: Defensive programming */
   if (!readerPointer)
     return NULL;
@@ -535,7 +535,7 @@ nag_intg readerGetPosRead(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_intg readerGetPosWrte(ReaderPointer const readerPointer) {
+nag_i readerGetPosWrte(ReaderPointer const readerPointer) {
   if (!readerPointer)
     return NULL;
   /* TO_DO: Return read */
@@ -556,7 +556,7 @@ nag_intg readerGetPosWrte(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_intg readerGetPosMark(ReaderPointer const readerPointer) {
+nag_i readerGetPosMark(ReaderPointer const readerPointer) {
   if (!readerPointer)
     return NULL;
   /* TO_DO: Return read */
@@ -577,7 +577,7 @@ nag_intg readerGetPosMark(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_intg readerGetSize(ReaderPointer const readerPointer) {
+nag_i readerGetSize(ReaderPointer const readerPointer) {
   if (!readerPointer)
     return NULL;
   /* TO_DO: Return read */
@@ -598,7 +598,7 @@ nag_intg readerGetSize(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_intg readerGetInc(ReaderPointer const readerPointer) {
+nag_i readerGetInc(ReaderPointer const readerPointer) {
   /* TO_DO: Defensive programming */
   /* TO_DO: Return increment */
   if (!readerPointer)
@@ -620,7 +620,7 @@ nag_intg readerGetInc(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_intg readerGetMode(ReaderPointer const readerPointer) {
+nag_i readerGetMode(ReaderPointer const readerPointer) {
   /* TO_DO: Defensive programming */
   /* TO_DO: Return mode */
   if (!readerPointer)
@@ -642,7 +642,7 @@ nag_intg readerGetMode(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_byte readerGetFlags(ReaderPointer const readerPointer) {
+nag_bt readerGetFlags(ReaderPointer const readerPointer) {
   /* TO_DO: Defensive programming */
   /* TO_DO: Return flags */
   if (!readerPointer)
@@ -664,7 +664,7 @@ nag_byte readerGetFlags(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_intg readerShowStat(ReaderPointer const readerPointer) {
+nag_i readerShowStat(ReaderPointer const readerPointer) {
   /* TO_DO: Defensive programming */
   /* TO_DO: Updates the histogram */
   if (!readerPointer)

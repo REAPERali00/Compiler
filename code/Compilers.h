@@ -59,16 +59,17 @@ NOTE: Some types may not be directly used by your language,
 ------------------------------------------------------------
 */
 /* TO_DO: Define your typedefs */
-typedef char nag_char;
-typedef int nag_intg;
-typedef float nag_float;
-typedef void nag_void;
+typedef char *nag_str;
+typedef char nag_ch;
+typedef int nag_i;
+typedef float nag_fl;
+typedef void nag_v;
 
-typedef unsigned char nag_boln;
-typedef unsigned char nag_byte;
+typedef unsigned char nag_bl;
+typedef unsigned char nag_bt;
 
-typedef long nag_long;
-typedef double nag_doub;
+typedef long nag_l;
+typedef double nag_do;
 
 /*
 ------------------------------------------------------------
@@ -86,9 +87,9 @@ Main functions signatures
 (Code will be updated during next assignments)
 ------------------------------------------------------------
 */
-nag_intg mainReader(nag_intg argc, nag_char **argv);
-nag_intg mainScanner(nag_intg argc, nag_char **argv);
-/*nag_intg mainParser(nag_intg argc, nag_char **argv);*/
-nag_void printLogo();
+nag_i mainReader(nag_i argc, nag_ch **argv);
+nag_i mainScanner(nag_i argc, nag_ch **argv);
+/*nag_i mainParser(nag_i argc, nag_ch **argv);*/
+nag_v printLogo();
 
 #endif
