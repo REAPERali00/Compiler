@@ -79,7 +79,12 @@ Programs:
 3: Parser - invokes MainParser code
 ------------------------------------------------------------
 */
-enum PROGRAMS { PGM_READER = 'R', PGM_SCANNER = 'S', PGM_PARSER = 'P' };
+enum PROGRAMS
+{
+    PGM_READER = 'R',
+    PGM_SCANNER = 'S',
+    PGM_PARSER = 'P'
+};
 
 /*
 ------------------------------------------------------------

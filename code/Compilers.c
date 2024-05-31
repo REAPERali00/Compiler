@@ -63,20 +63,24 @@
 *************************************************************
 */
 
-nag_i main(int argc, char **argv) {
+nag_i main(int argc, char **argv)
+{
   nag_i i;
   printLogo();
-  if (DEBUG) {
+  if (DEBUG)
+  {
     for (i = 0; i < argc; ++i)
       printf("argv[%d] = %s\n", i, argv[i]);
   }
-  if (argc < 2) {
+  if (argc < 2)
+  {
     printf("%s%c%s%c%s%c%s", "OPTIONS:\n* [", PGM_READER, "] - Reader\n* [",
            PGM_SCANNER, "] - Scanner\n* [", PGM_PARSER, "] - Parser\n");
     return EXIT_FAILURE;
   }
   nag_ch option = argv[1][0];
-  switch (option) {
+  switch (option)
+  {
   case PGM_READER:
     printf("%s%c%s", "\n[Option '", PGM_READER,
            "': Starting READER .....]\n\n");
@@ -114,7 +118,8 @@ nag_i main(int argc, char **argv) {
 * Algorithm: -
 *************************************************************
 */
-nag_v printLogo() {
+nag_v printLogo()
+{
   /*
   nag_ch* strLogo = " _________________________________\n| |\n| ........ nag
   LANGUAGE ......... |\n|     __    __    __    __        |\n|    /  \\  / \\  /
@@ -134,6 +139,6 @@ nag_v printLogo() {
          "|  \\_/ \\   / \\   / \\   / \\  \\___  |\n",
          "|       \\_/   \\_/   \\_/   \\___o_> |\n",
          "|                                 |\n",
-         "| .. ALGONQUIN COLLEGE - 2022F .. |\n",
+         "| ..                   - 2022F .. |\n",
          "|_________________________________|\n");
 }
