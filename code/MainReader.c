@@ -312,7 +312,7 @@ nag_i isNumber(const nag_ch *ns) {
   nag_i i = 0;
   if (ns == NULL)
     return 0;
-  while ((c = ns[i++]) == 0) {
+  while ((c = ns[i++]) != 0) {
     if (!isdigit(c))
       return 0;
   }

@@ -2,4 +2,5 @@
 
 cmake --build .
 
-./compiler R ./input/test.nag
+./compiler
+# ./compiler R ./input/test.nag
