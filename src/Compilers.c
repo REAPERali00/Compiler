@@ -37,7 +37,7 @@
 #include <stdlib.h>
 
 #ifndef COMPILERS_H_
-#include "./Compilers.h"
+#include "Compilers.h"
 #endif
 
 /*
@@ -126,7 +126,7 @@ nag_v printLogo() {
   */
   printf("%s%s%s%s%s%s%s%s%s%s%s%s", " _________________________________ \n",
          "|                                 |\n",
-         "| ....... 'nag' LANGUAGE ........ |\n",
+         "| ....... 'Nagini' LANGUAGE ........ |\n",
          "|     __    __    __    __        |\n",
          "|    /  \\  /  \\  /  \\  /  \\       |\n",
          "| __/  __\\/  __\\/  __\\/  __\\__    |\n",

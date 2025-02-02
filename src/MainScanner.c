@@ -35,11 +35,11 @@
 #include <string.h>
 
 #ifndef COMPILERS_H_
-#include "./Compilers.h"
+#include "Compilers.h"
 #endif
 
 #ifndef BUFFER_H_
-#include "./Reader.h"
+#include "Reader.h"
 #endif
 
 #ifndef SCANNER_H_

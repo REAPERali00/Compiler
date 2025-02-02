@@ -35,49 +35,49 @@
 #define PARSER_H_
 
 /* Inclusion section */
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdarg.h>
 
 #ifndef COMPILERS_H_
 #include "Compilers.h"
 #endif
 #ifndef READER_H_
-#include "./buff/Reader.h"
+#include "Reader.h"
 #endif
 #ifndef SCANNER_H_
-#include "./scan/Scanner.h"
+#include "Scanner.h"
 #endif
 
 /* Global vars */
 static Token lookahead;
-extern BufferReader* stringLiteralTable;
+extern BufferReader *stringLiteralTable;
 extern nag_intg line;
 extern Token tokenizer();
-extern nag_char* keywordTable[];
+extern nag_char *keywordTable[];
 nag_intg syntaxErrorNumber = 0;
-	
-#define STR_LANGNAME	"Nagini"
-#define LANG_WRTE		"print!"
-#define LANG_READ		"input!"	
-#define LANG_MAIN		"main!"
+
+#define STR_LANGNAME "Nagini"
+#define LANG_WRTE "print!"
+#define LANG_READ "input!"
+#define LANG_MAIN "main!"
 
 /* TO_DO: Create ALL constants for keywords (sequence given in table.h) */
 
 /* Constants */
 enum KEYWORDS {
-	NO_ATTR = -1,
-	KW_data,
-	KW_code,
-	KW_int,
-	KW_string,
-	KW_char,
-	 KW_float,
-	KW_if,
-	KW_elseIf,
-	KW_else,
-	KW_loop
+  NO_ATTR = -1,
+  KW_data,
+  KW_code,
+  KW_int,
+  KW_string,
+  KW_char,
+  KW_float,
+  KW_if,
+  KW_elseIf,
+  KW_else,
+  KW_loop
 };
 
 /* Function definitions */
@@ -97,7 +97,6 @@ nag_void outputStatement();
 nag_void statement();
 nag_void statements();
 nag_void statementsPrime();
-
 
 nag_void varListDeclarations();
 nag_void varListDeclaration();

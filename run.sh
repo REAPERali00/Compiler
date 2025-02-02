@@ -1,6 +1,8 @@
 #!/bin/bash
 
-cmake --build .
+cd build
+cmake ..
+make
 
-./compiler
+./build/compiler
 # ./compiler R ./input/test.nag
