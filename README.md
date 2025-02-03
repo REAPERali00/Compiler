@@ -11,3 +11,7 @@ This is a compiler written in C for the Nagini Language, a python like language
 | Parser        |          |    ✓     |             |
 | Documentation |          |          |      ✓      |
 
+## Dependencies
+
+- A c compiler
+- Cmake to build files
