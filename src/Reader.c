@@ -76,7 +76,7 @@ ReaderPointer readerCreate(nag_i size, nag_i increment, nag_i mode) {
 
   // possible error: if only one is null, all will reset to default. if not the
   // goal, change later
-  if (size == NULL || increment == NULL || mode == NULL) {
+  if (size == 0 || increment == 0 || mode == 0) {
     size = READER_DEFAULT_SIZE;
     increment = READER_DEFAULT_INCREMENT;
     mode = MODE_FIXED;
@@ -516,7 +516,7 @@ nag_ch *readerGetContent(ReaderPointer const readerPointer, nag_i pos) {
 nag_i readerGetPosRead(ReaderPointer const readerPointer) {
   /* TO_DO: Defensive programming */
   if (!readerPointer)
-    return NULL;
+    return 0;
   /* TO_DO: Return read */
   return readerPointer->position.read;
 }
@@ -537,7 +537,7 @@ nag_i readerGetPosRead(ReaderPointer const readerPointer) {
 */
 nag_i readerGetPosWrte(ReaderPointer const readerPointer) {
   if (!readerPointer)
-    return NULL;
+    return 0;
   /* TO_DO: Return read */
   return readerPointer->position.wrte;
 }
@@ -558,7 +558,7 @@ nag_i readerGetPosWrte(ReaderPointer const readerPointer) {
 */
 nag_i readerGetPosMark(ReaderPointer const readerPointer) {
   if (!readerPointer)
-    return NULL;
+    return 0;
   /* TO_DO: Return read */
   return readerPointer->position.mark;
 }
@@ -579,7 +579,7 @@ nag_i readerGetPosMark(ReaderPointer const readerPointer) {
 */
 nag_i readerGetSize(ReaderPointer const readerPointer) {
   if (!readerPointer)
-    return NULL;
+    return 0;
   /* TO_DO: Return read */
   return readerPointer->size;
 }
@@ -602,7 +602,7 @@ nag_i readerGetInc(ReaderPointer const readerPointer) {
   /* TO_DO: Defensive programming */
   /* TO_DO: Return increment */
   if (!readerPointer)
-    return NULL;
+    return 0;
   return readerPointer->increment;
 }
 
@@ -624,7 +624,7 @@ nag_i readerGetMode(ReaderPointer const readerPointer) {
   /* TO_DO: Defensive programming */
   /* TO_DO: Return mode */
   if (!readerPointer)
-    return NULL;
+    return 0;
   return readerPointer->mode;
 }
 
