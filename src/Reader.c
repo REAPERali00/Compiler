@@ -118,7 +118,7 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, nag_ch ch) {
   nag_ch *tempReader = NULL;
   nag_i newSize = 0;
 
-  if (!readerPointer || (int)ch > NCHAR)
+  if (!readerPointer)
     return NULL;
 
   /* TO_DO: Reset realocation */
