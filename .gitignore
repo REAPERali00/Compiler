@@ -41,3 +41,4 @@ Makefile
 .DS_Store
 Thumbs.db
 compile
+/.cache/
