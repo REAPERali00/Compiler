@@ -18,10 +18,13 @@ fi
 cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=12 2>>$error
 make 2>>$error
 
-for f in "${files[@]}"; do
-  if [ -f $f ]; then
-    echo $f
-    ./bin/compiler R $f
-    sleep 2
-  fi
-done
+cp ./bin/compiler ../
+# for f in "${files[@]}"; do
+#   if [ -f $f ]; then
+#     echo $f
+#     ./bin/compiler R $f
+#     sleep 2
+#   fi
+# done
+#
+./bin/compiler R "${files[2]}"

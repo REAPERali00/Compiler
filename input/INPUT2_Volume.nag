@@ -1,5 +1,4 @@
 # BOA Example 3:
-  Volume of a sphere #
 main& {
 	data {
 		real PI%, r%, Vol%;

@@ -69,6 +69,11 @@ nag_i main(int argc, char **argv) {
   if (DEBUG) {
     for (i = 0; i < argc; ++i)
       printf("argv[%d] = %s\n", i, argv[i]);
+
+    // TODO: for test phase only , REMOVE THIS
+    char *args[] = {"compiler", "R", "../input/INPUT1_Hello.nag"};
+    mainReader(3, args);
+    exit(0);
   }
   if (argc < 2) {
     printf("%s%c%s%c%s%c%s", "OPTIONS:\n* [", PGM_READER, "] - Reader\n* [",
@@ -126,7 +131,7 @@ nag_v printLogo() {
   */
   printf("%s%s%s%s%s%s%s%s%s%s%s%s", " _________________________________ \n",
          "|                                 |\n",
-         "| ....... 'Nagini' LANGUAGE ........ |\n",
+         "| ...... 'Nagini' LANGUAGE ...... |\n",
          "|     __    __    __    __        |\n",
          "|    /  \\  /  \\  /  \\  /  \\       |\n",
          "| __/  __\\/  __\\/  __\\/  __\\__    |\n",
