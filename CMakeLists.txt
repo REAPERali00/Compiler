@@ -1,4 +1,11 @@
 cmake_minimum_required(VERSION 3.16)
+
+# Set CMake to use Debug mode by default (ensures debug symbols)
+set(CMAKE_BUILD_TYPE Debug)
+# Ensure -g flag is added for debug symbols
+set(CMAKE_C_FLAGS_DEBUG "-g")
+set(CMAKE_CXX_FLAGS_DEBUG "-g")
+
 project(compiler C)
 
 # Set C standard
