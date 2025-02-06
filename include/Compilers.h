@@ -35,7 +35,7 @@
 #ifndef COMPILERS_H_
 #define COMPILERS_H_
 
-#define DEBUG 0
+#define DEBUG 1
 
 /*
  * ............................................................................
@@ -88,8 +88,8 @@ Main functions signatures
 ------------------------------------------------------------
 */
 nag_i mainReader(nag_i argc, nag_ch **argv);
-nag_i mainScanner(nag_i argc, nag_ch **argv);
-nag_i mainParser(nag_i argc, nag_ch **argv);
+// nag_i mainScanner(nag_i argc, nag_ch **argv);
+// nag_i mainParser(nag_i argc, nag_ch **argv);
 nag_v printLogo();
 
 #endif

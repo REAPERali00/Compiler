@@ -261,7 +261,7 @@ nag_v displayBuffer(BufferReader *ptr_Buffer) {
          readerGetPosWrte(ptr_Buffer));
   printf("The operational mode of the buffer is: %c\n",
          readerGetMode(ptr_Buffer));
-  printf("The increment factor of the buffer is:  %lu\n",
+  printf("The increment factor of the buffer is:  %d\n",
          readerGetInc(ptr_Buffer));
   printf("The first symbol in the buffer is:  %c\n",
          readerGetPosWrte(ptr_Buffer) ? *readerGetContent(ptr_Buffer, 0) : ' ');
@@ -312,7 +312,7 @@ nag_i isNumber(const nag_ch *ns) {
   nag_i i = 0;
   if (ns == NULL)
     return 0;
-  while ((c = ns[i++]) == 0) {
+  while ((c = ns[i++]) != 0) {
     if (!isdigit(c))
       return 0;
   }

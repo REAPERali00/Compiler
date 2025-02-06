@@ -37,7 +37,7 @@
 #include <stdlib.h>
 
 #ifndef COMPILERS_H_
-#include "./Compilers.h"
+#include "Compilers.h"
 #endif
 
 /*
@@ -63,41 +63,42 @@
 *************************************************************
 */
 
-nag_i main(int argc, char **argv)
-{
+nag_i main(int argc, char **argv) {
   nag_i i;
   printLogo();
-  if (DEBUG)
-  {
+  if (DEBUG) {
     for (i = 0; i < argc; ++i)
       printf("argv[%d] = %s\n", i, argv[i]);
+
+    // TODO: for test phase only , REMOVE THIS
+    char *args[] = {"compiler", "R", "../input/INPUT1_Hello.nag"};
+    mainReader(3, args);
+    exit(0);
   }
-  if (argc < 2)
-  {
+  if (argc < 2) {
     printf("%s%c%s%c%s%c%s", "OPTIONS:\n* [", PGM_READER, "] - Reader\n* [",
            PGM_SCANNER, "] - Scanner\n* [", PGM_PARSER, "] - Parser\n");
     return EXIT_FAILURE;
   }
   nag_ch option = argv[1][0];
-  switch (option)
-  {
+  switch (option) {
   case PGM_READER:
     printf("%s%c%s", "\n[Option '", PGM_READER,
            "': Starting READER .....]\n\n");
     mainReader(argc, argv);
     break;
 
-  case PGM_SCANNER:
-    printf("%s%c%s", "\n[Option '", PGM_SCANNER,
-           "': Starting SCANNER ....]\n\n");
-    mainScanner(argc, argv);
-    break;
+  // case PGM_SCANNER:
+  //   printf("%s%c%s", "\n[Option '", PGM_SCANNER,
+  //          "': Starting SCANNER ....]\n\n");
+  //   mainScanner(argc, argv);
+  //   break;
 
-  /*case PGM_PARSER:*/
-  /*  printf("%s%c%s", "\n[Option '", PGM_PARSER,*/
-  /*         "': Starting PARSER .....]\n\n");*/
-  /*  mainParser(argc, argv);*/
-  /*  break;*/
+  // case PGM_PARSER:
+  //   printf("%s%c%s", "\n[Option '", PGM_PARSER,
+  //          "': Starting PARSER .....]\n\n");
+  //   mainParser(argc, argv);
+  //   break;
   default:
     printf("%s%c%s%c%s%c%s", "* OPTIONS:\n- [", PGM_READER, "] - Reader\n- [",
            PGM_SCANNER, "] - Scanner\n- [", PGM_PARSER, "] - Parser\n");
@@ -118,8 +119,7 @@ nag_i main(int argc, char **argv)
 * Algorithm: -
 *************************************************************
 */
-nag_v printLogo()
-{
+nag_v printLogo() {
   /*
   nag_ch* strLogo = " _________________________________\n| |\n| ........ nag
   LANGUAGE ......... |\n|     __    __    __    __        |\n|    /  \\  / \\  /
@@ -131,7 +131,7 @@ nag_v printLogo()
   */
   printf("%s%s%s%s%s%s%s%s%s%s%s%s", " _________________________________ \n",
          "|                                 |\n",
-         "| ....... 'nag' LANGUAGE ........ |\n",
+         "| ...... 'Nagini' LANGUAGE ...... |\n",
          "|     __    __    __    __        |\n",
          "|    /  \\  /  \\  /  \\  /  \\       |\n",
          "| __/  __\\/  __\\/  __\\/  __\\__    |\n",
