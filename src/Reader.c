@@ -74,9 +74,7 @@
 ReaderPointer readerCreate(nag_i size, nag_i increment, nag_i mode) {
   ReaderPointer readerPointer;
 
-  // possible error: if only one is null, all will reset to default. if not the
-  // goal, change later
-  if (size == 0 || increment == 0 || mode == 0) {
+  if (size <= 0 || increment <= 0 || mode <= 0) {
     size = READER_DEFAULT_SIZE;
     increment = READER_DEFAULT_INCREMENT;
     mode = MODE_FIXED;
@@ -115,7 +113,7 @@ ReaderPointer readerCreate(nag_i size, nag_i increment, nag_i mode) {
 */
 
 ReaderPointer readerAddChar(ReaderPointer const readerPointer, nag_ch ch) {
-  nag_ch *tempReader = NULL;
+  nag_ch *tempReader;
   nag_i newSize = 0;
 
   if (!readerPointer)
@@ -144,7 +142,8 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, nag_ch ch) {
     if (newSize < 0 || newSize > READER_MAX_SIZE)
       return NULL;
 
-    tempReader = (char *)realloc(tempReader, newSize);
+    // tempReader = (char *)realloc(tempReader, newSize);
+    tempReader = (char *)malloc(newSize);
     if (!tempReader)
       return NULL;
     strcpy(tempReader, readerPointer->content);

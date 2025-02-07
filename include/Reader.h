@@ -96,8 +96,6 @@ enum READER_MODE {
 /* STRUCTURES DEFINITION: SUFIXED BY LANGUAGE NAME (SOFIA)
  * .................................. */
 
-/* TODO: Adjust datatypes */ // DO LATER
-
 /* Offset declaration */
 typedef struct position {
   nag_i mark; /* the offset to the mark position (in chars) */
