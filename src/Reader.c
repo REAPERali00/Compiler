@@ -74,7 +74,7 @@
 ReaderPointer readerCreate(nag_i size, nag_i increment, nag_i mode) {
   ReaderPointer readerPointer;
 
-  if (size <= 0 || increment <= 0 || mode <= 0) {
+  if (size == 0 || increment == 0 || mode == 0) {
     size = READER_DEFAULT_SIZE;
     increment = READER_DEFAULT_INCREMENT;
     mode = MODE_FIXED;
@@ -116,10 +116,12 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, nag_ch ch) {
   nag_ch *tempReader;
   nag_i newSize = 0;
 
-  if (!readerPointer)
+  if (!readerPointer || ch < 0)
     return NULL;
 
-  /* TO_DO: Reset realocation */
+  // Setting the allocatin back to 0, if needs to be reallocated the if
+  // statement will set it
+  readerPointer->flags = readerPointer->flags & ~READER_REL_FLAG;
 
   if (readerPointer->position.wrte * (nag_i)sizeof(nag_ch) >=
       readerPointer->size) {
@@ -142,7 +144,6 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, nag_ch ch) {
     if (newSize < 0 || newSize > READER_MAX_SIZE)
       return NULL;
 
-    // tempReader = (char *)realloc(tempReader, newSize);
     tempReader = (char *)malloc(newSize);
     if (!tempReader)
       return NULL;
@@ -153,9 +154,7 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, nag_ch ch) {
     readerPointer->flags = readerPointer->flags | READER_REL_FLAG;
   }
 
-  /* TO_DO: Add the char */
   readerPointer->content[readerPointer->position.wrte++] = ch;
-  /* TO_DO: Updates histogram */
   readerPointer->histogram[ch % NCHAR]++;
 
   readerPointer->flags = readerPointer->flags & ~READER_EMP_FLAG;
@@ -178,8 +177,6 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, nag_ch ch) {
 *************************************************************
 */
 nag_bl readerClear(ReaderPointer const readerPointer) {
-  /* TO_DO: Defensive programming */
-  /* TO_DO: Adjust flags original */
   if (!readerPointer)
     return nag_FALSE;
 
@@ -213,7 +210,6 @@ nag_bl readerClear(ReaderPointer const readerPointer) {
 nag_bl readerFree(ReaderPointer const readerPointer) {
   if (!readerPointer)
     return nag_FALSE;
-  /* TO_DO: Free pointers */
   free(readerPointer->content);
   free(readerPointer);
 
@@ -235,8 +231,6 @@ nag_bl readerFree(ReaderPointer const readerPointer) {
 *************************************************************
 */
 nag_bl readerIsFull(ReaderPointer const readerPointer) {
-  /* TO_DO: Defensive programming */
-  /* TO_DO: Check flag if buffer is FUL */
   if (!readerPointer)
     return nag_FALSE;
 
@@ -261,8 +255,6 @@ nag_bl readerIsFull(ReaderPointer const readerPointer) {
 *************************************************************
 */
 nag_bl readerIsEmpty(ReaderPointer const readerPointer) {
-  /* TO_DO: Defensive programming */
-  /* TO_DO: Check flag if buffer is EMP */
   if (!readerPointer)
     return nag_FALSE;
 
@@ -288,7 +280,6 @@ nag_bl readerIsEmpty(ReaderPointer const readerPointer) {
 *************************************************************
 */
 nag_bl readerSetMark(ReaderPointer const readerPointer, nag_i mark) {
-  /* TO_DO: Defensive programming */
   if (!readerPointer || mark < 0 || mark > readerPointer->position.wrte)
     return nag_FALSE;
   /* TO_DO: Adjust mark */
