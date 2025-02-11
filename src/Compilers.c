@@ -71,7 +71,7 @@ nag_i main(int argc, char **argv) {
       printf("argv[%d] = %s\n", i, argv[i]);
 
     // TODO: for test phase only , REMOVE THIS
-    char *args[] = {"compiler", "R", "../input/INPUT1_Hello.nag"};
+    char *args[] = {"compiler", "R", "../input/INPUT4_Datatypes.nag"};
     mainReader(3, args);
     exit(0);
   }

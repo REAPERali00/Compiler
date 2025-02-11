@@ -282,7 +282,6 @@ nag_bl readerIsEmpty(ReaderPointer const readerPointer) {
 nag_bl readerSetMark(ReaderPointer const readerPointer, nag_i mark) {
   if (!readerPointer || mark < 0 || mark > readerPointer->position.write)
     return nag_FALSE;
-  /* TO_DO: Adjust mark */
   readerPointer->position.mark = mark;
   return nag_TRUE;
 }
@@ -302,21 +301,15 @@ nag_bl readerSetMark(ReaderPointer const readerPointer, nag_i mark) {
 *************************************************************
 */
 nag_i readerPrint(ReaderPointer const readerPointer) {
-  nag_i cont = 0;
   nag_ch c;
   if (!readerPointer)
-    return cont;
-  /* TO_DO: Defensive programming (including invalid chars) */
-  c = readerGetChar(readerPointer);
-
-  /* TO_DO: Check flag if buffer EOB has achieved */
-  while (cont < readerPointer->position.write &&
-         !(readerPointer->flags & READER_END_FLAG)) {
-    cont++;
-    printf("%c", c);
+    return 0;
+  // check if the end of file is reached by checking the end flag
+  while (!(readerPointer->flags & READER_END_FLAG)) {
     c = readerGetChar(readerPointer);
+    printf("%c", c);
   }
-  return cont;
+  return readerPointer->position.read;
 }
 
 /*
