@@ -123,7 +123,7 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, nag_ch ch) {
   // statement will set it
   readerPointer->flags = readerPointer->flags & ~READER_REL_FLAG;
 
-  if (readerPointer->position.wrte * (nag_i)sizeof(nag_ch) >=
+  if (readerPointer->position.write * (nag_i)sizeof(nag_ch) >=
       readerPointer->size) {
 
     readerPointer->flags = readerPointer->flags | READER_FUL_FLAG;
@@ -154,7 +154,7 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, nag_ch ch) {
     readerPointer->flags = readerPointer->flags | READER_REL_FLAG;
   }
 
-  readerPointer->content[readerPointer->position.wrte++] = ch;
+  readerPointer->content[readerPointer->position.write++] = ch;
   readerPointer->histogram[ch % NCHAR]++;
 
   readerPointer->flags = readerPointer->flags & ~READER_EMP_FLAG;
@@ -183,7 +183,7 @@ nag_bl readerClear(ReaderPointer const readerPointer) {
   // reset position conditions?
   readerPointer->position.mark = 0;
   readerPointer->position.read = 0;
-  readerPointer->position.wrte = 0;
+  readerPointer->position.write = 0;
 
   readerPointer->flags = READER_EMP_FLAG;
 
@@ -280,7 +280,7 @@ nag_bl readerIsEmpty(ReaderPointer const readerPointer) {
 *************************************************************
 */
 nag_bl readerSetMark(ReaderPointer const readerPointer, nag_i mark) {
-  if (!readerPointer || mark < 0 || mark > readerPointer->position.wrte)
+  if (!readerPointer || mark < 0 || mark > readerPointer->position.write)
     return nag_FALSE;
   /* TO_DO: Adjust mark */
   readerPointer->position.mark = mark;
@@ -310,7 +310,7 @@ nag_i readerPrint(ReaderPointer const readerPointer) {
   c = readerGetChar(readerPointer);
 
   /* TO_DO: Check flag if buffer EOB has achieved */
-  while (cont < readerPointer->position.wrte &&
+  while (cont < readerPointer->position.write &&
          !(readerPointer->flags & READER_END_FLAG)) {
     cont++;
     printf("%c", c);
@@ -450,13 +450,13 @@ nag_ch readerGetChar(ReaderPointer const readerPointer) {
   if (!readerPointer)
     return '\0';
 
-  /* TO_DO: Check condition to read/wrte */
+  /* TO_DO: Check condition to read/write */
 
   /* TO_DO: Set EOB flag */
-  if (readerPointer->position.read == readerPointer->position.wrte)
+  if (readerPointer->position.read == readerPointer->position.write)
     readerPointer->flags = readerPointer->flags | READER_END_FLAG;
   /* TO_DO: Reset EOB flag */
-  else if (readerPointer->position.read < readerPointer->position.wrte)
+  else if (readerPointer->position.read < readerPointer->position.write)
     readerPointer->flags = readerPointer->flags & ~READER_END_FLAG;
   else
     return '\0';
@@ -483,7 +483,7 @@ nag_ch *readerGetContent(ReaderPointer const readerPointer, nag_i pos) {
   /* TO_DO: Defensive programming */
   if (!readerPointer)
     return NULL;
-  if (pos > readerPointer->position.wrte)
+  if (pos > readerPointer->position.write)
     return NULL;
   /* TO_DO: Return content (string) */
   return readerPointer->content + pos;
@@ -529,7 +529,7 @@ nag_i readerGetPosWrte(ReaderPointer const readerPointer) {
   if (!readerPointer)
     return 0;
   /* TO_DO: Return read */
-  return readerPointer->position.wrte;
+  return readerPointer->position.write;
 }
 
 /*

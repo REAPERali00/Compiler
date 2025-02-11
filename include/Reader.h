@@ -100,7 +100,7 @@ enum READER_MODE {
 typedef struct position {
   nag_i mark; /* the offset to the mark position (in chars) */
   nag_i read; /* the offset to the get a char position (in chars) */
-  nag_i wrte; /* the offset to the add chars (in chars) */
+  nag_i write; /* the offset to the add chars (in chars) */
 } Position;
 
 /* Buffer structure */
