@@ -256,12 +256,9 @@ nag_bl readerIsFull(ReaderPointer const readerPointer) {
 */
 nag_bl readerIsEmpty(ReaderPointer const readerPointer) {
   if (!readerPointer)
-    return nag_FALSE;
-
-  if (readerPointer->flags & READER_EMP_FLAG)
-    return nag_TRUE;
-
-  return nag_FALSE;
+    return nag_TRUE; // at the moment, the behavior is set to be true since,
+                     // well, techincally it would be empty if pinter is null?
+  return (readerPointer->flags & READER_EMP_FLAG);
 }
 
 /*
@@ -309,7 +306,9 @@ nag_i readerPrint(ReaderPointer const readerPointer) {
     c = readerGetChar(readerPointer);
     printf("%c", c);
   }
-  return readerPointer->position.read;
+  return readerPointer->position
+      .read; // returning the number of characters read, which is the reader as
+             // it increments
 }
 
 /*
@@ -332,7 +331,6 @@ nag_i readerLoad(ReaderPointer const readerPointer,
                  FILE *const fileDescriptor) {
   nag_i size = 0;
   nag_ch c;
-  /* TO_DO: Defensive programming */
   if (!readerPointer || !fileDescriptor)
     return READER_ERROR;
 
@@ -345,7 +343,6 @@ nag_i readerLoad(ReaderPointer const readerPointer,
     c = (char)fgetc(fileDescriptor);
     size++;
   }
-  /* TO_DO: Defensive programming */
   return size;
 }
 
@@ -364,11 +361,9 @@ nag_i readerLoad(ReaderPointer const readerPointer,
 *************************************************************
 */
 nag_bl readerRecover(ReaderPointer const readerPointer) {
-  /* TO_DO: Defensive programming */
   if (!readerPointer)
     return nag_FALSE;
 
-  /* TO_DO: Recover positions */
   readerPointer->position.mark = 0;
   readerPointer->position.read = 0;
 
@@ -390,12 +385,10 @@ nag_bl readerRecover(ReaderPointer const readerPointer) {
 *************************************************************
 */
 nag_bl readerRetract(ReaderPointer const readerPointer) {
-  /* TO_DO: Defensive programming */
   if (!readerPointer)
     return nag_FALSE;
 
-  /* TO_DO: Retract (return 1 pos read) */
-  if (!readerPointer->position.read)
+  if (readerPointer->position.read > 0)
     readerPointer->position.read--;
 
   return nag_TRUE;
@@ -416,10 +409,8 @@ nag_bl readerRetract(ReaderPointer const readerPointer) {
 *************************************************************
 */
 nag_bl readerRestore(ReaderPointer const readerPointer) {
-  /* TO_DO: Defensive programming */
   if (!readerPointer)
     return nag_FALSE;
-
   readerPointer->position.read = readerPointer->position.mark;
   return nag_TRUE;
 }
@@ -443,13 +434,12 @@ nag_ch readerGetChar(ReaderPointer const readerPointer) {
   if (!readerPointer)
     return '\0';
 
-  /* TO_DO: Check condition to read/write */
-
-  /* TO_DO: Set EOB flag */
+  // check if the end of buffer content has reached
   if (readerPointer->position.read == readerPointer->position.write)
+    // setting the end flag
     readerPointer->flags = readerPointer->flags | READER_END_FLAG;
-  /* TO_DO: Reset EOB flag */
   else if (readerPointer->position.read < readerPointer->position.write)
+    // unset the end flag
     readerPointer->flags = readerPointer->flags & ~READER_END_FLAG;
   else
     return '\0';
@@ -473,12 +463,8 @@ nag_ch readerGetChar(ReaderPointer const readerPointer) {
 *************************************************************
 */
 nag_ch *readerGetContent(ReaderPointer const readerPointer, nag_i pos) {
-  /* TO_DO: Defensive programming */
-  if (!readerPointer)
+  if (!readerPointer || pos > readerPointer->position.write)
     return NULL;
-  if (pos > readerPointer->position.write)
-    return NULL;
-  /* TO_DO: Return content (string) */
   return readerPointer->content + pos;
 }
 
@@ -562,8 +548,7 @@ nag_i readerGetPosMark(ReaderPointer const readerPointer) {
 */
 nag_i readerGetSize(ReaderPointer const readerPointer) {
   if (!readerPointer)
-    return 0;
-  /* TO_DO: Return read */
+    return READER_ERROR;
   return readerPointer->size;
 }
 
@@ -582,10 +567,8 @@ nag_i readerGetSize(ReaderPointer const readerPointer) {
 *************************************************************
 */
 nag_i readerGetInc(ReaderPointer const readerPointer) {
-  /* TO_DO: Defensive programming */
-  /* TO_DO: Return increment */
   if (!readerPointer)
-    return 0;
+    return READER_ERROR;
   return readerPointer->increment;
 }
 
@@ -604,10 +587,8 @@ nag_i readerGetInc(ReaderPointer const readerPointer) {
 *************************************************************
 */
 nag_i readerGetMode(ReaderPointer const readerPointer) {
-  /* TO_DO: Defensive programming */
-  /* TO_DO: Return mode */
   if (!readerPointer)
-    return 0;
+    return READER_ERROR;
   return readerPointer->mode;
 }
 
@@ -626,8 +607,6 @@ nag_i readerGetMode(ReaderPointer const readerPointer) {
 *************************************************************
 */
 nag_bt readerGetFlags(ReaderPointer const readerPointer) {
-  /* TO_DO: Defensive programming */
-  /* TO_DO: Return flags */
   if (!readerPointer)
     return '\0';
   return readerPointer->flags;
@@ -648,13 +627,10 @@ nag_bt readerGetFlags(ReaderPointer const readerPointer) {
 *************************************************************
 */
 nag_i readerShowStat(ReaderPointer const readerPointer) {
-  /* TO_DO: Defensive programming */
-  /* TO_DO: Updates the histogram */
   if (!readerPointer)
     return READER_ERROR;
   int sum = 0;
   for (int i = 0; i < NCHAR; i++)
     sum += readerPointer->histogram[i];
-
   return sum;
 }
