@@ -6,8 +6,8 @@ This is a compiler written in C for the Nagini Language, a python like language
 
 | Feature       | Finished | Not Done | In Progress |
 | :------------ | :------: | :------: | :---------: |
-| Buffer        |          |          |      ✓      |
-| Scanner       |          |    ✓     |             |
+| Buffer        |    ✓     |          |             |
+| Scanner       |          |          |      ✓      |
 | Parser        |          |    ✓     |             |
 | Documentation |          |          |      ✓      |
 

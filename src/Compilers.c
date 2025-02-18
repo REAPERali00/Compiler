@@ -71,9 +71,9 @@ nag_i main(int argc, char **argv) {
       printf("argv[%d] = %s\n", i, argv[i]);
 
     // TODO: for test phase only , REMOVE THIS
-    char *args[] = {"compiler", "R", "../input/INPUT4_Datatypes.nag"};
-    mainReader(3, args);
-    exit(0);
+    // char *args[] = {"compiler", "R", "../input/INPUT4_Datatypes.nag"};
+    // mainReader(3, args);
+    // exit(0);
   }
   if (argc < 2) {
     printf("%s%c%s%c%s%c%s", "OPTIONS:\n* [", PGM_READER, "] - Reader\n* [",
