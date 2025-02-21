@@ -155,7 +155,7 @@ part
 #define CHRCOL16 '^'
 
 // Multi-character symbols like '==', '<>', and '=' cannot be directly
-defined
+// defined
 // as a macro value in this context.
 
 /* These constants will be used on VID / MID function */
@@ -172,27 +172,27 @@ defined
 #define NUM_STATES 16   // Updated number of states
 #define CHAR_CLASSES 10 // Updated number of character classes
 
-    /* Expanded Transition table - type of states defined in a separate table */
-    static nag_i transitionTable[NUM_STATES][CHAR_CLASSES] = {
-        /*     L(0),  D(1),  U(2), B1(3),  Q(4), QQ(5),  S(6),  P(7), V_id(8),
-        O(9)
-         */
-        /* S0 */ {1, 11, ES, ES, 8, 4, 6, ES, ES, ES},
-        /* S1 */ {1, 1, 1, 2, 3, 3, 3, 3, 5, 3},
-        /* S2 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
-        /* S3 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
-        /* S4 */ {4, 4, 4, 4, 4, 15, 4, 4, 4, 4},
-        /* S5 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
-        /* S6 */ {6, 6, 6, 6, 6, 6, 7, 6, 6, 6},
-        /* S7 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
-        /* S8 */ {9, 9, 9, 9, ES, 9, 9, 9, 9, 9},
-        /* S9 */ {ES, ES, ES, ES, 10, ES, ES, ES, ES, ES},
-        /* S10 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
-        /* S11 */ {ES, 11, ES, 12, ES, ES, 12, 13, ES, 12},
-        /* S12 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
-        /* S13 */ {ES, 13, ES, 14, ES, ES, 14, ES, ES, 14},
-        /* S14 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
-        /* S15 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS}};
+/* Expanded Transition table - type of states defined in a separate table */
+static nag_i transitionTable[NUM_STATES][CHAR_CLASSES] = {
+    /*     L(0),  D(1),  U(2), B1(3),  Q(4), QQ(5),  S(6),  P(7), V_id(8),
+    O(9)
+     */
+    /* S0 */ {1, 11, ES, ES, 8, 4, 6, ES, ES, ES},
+    /* S1 */ {1, 1, 1, 2, 3, 3, 3, 3, 5, 3},
+    /* S2 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
+    /* S3 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
+    /* S4 */ {4, 4, 4, 4, 4, 15, 4, 4, 4, 4},
+    /* S5 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
+    /* S6 */ {6, 6, 6, 6, 6, 6, 7, 6, 6, 6},
+    /* S7 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
+    /* S8 */ {9, 9, 9, 9, ES, 9, 9, 9, 9, 9},
+    /* S9 */ {ES, ES, ES, ES, 10, ES, ES, ES, ES, ES},
+    /* S10 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
+    /* S11 */ {ES, 11, ES, 12, ES, ES, 12, 13, ES, 12},
+    /* S12 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
+    /* S13 */ {ES, 13, ES, 14, ES, ES, 14, ES, ES, 14},
+    /* S14 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS},
+    /* S15 */ {FS, FS, FS, FS, FS, FS, FS, FS, FS, FS}};
 
 /* Define accepting states types */
 #define NOFS 0 /* not accepting state */
