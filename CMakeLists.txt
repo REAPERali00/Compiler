@@ -40,5 +40,7 @@ target_compile_options(compiler PRIVATE -Wall -Wextra -Wpedantic)
 # Enable testing if needed
 enable_testing()
 
+add_subdirectory(tests)
+
 # Installation rule (optional)
 install(TARGETS compiler DESTINATION bin)

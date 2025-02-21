@@ -2,6 +2,7 @@
 
 error="../error.log"
 files=(
+  "../input/test.nag"
   "../input/INPUT1_Hello.nag"
   "../input/INPUT2_Voluem.nag"
   "../input/INPUT3_Factorial.nag"
@@ -27,4 +28,4 @@ cp ./bin/compiler ../
 #   fi
 # done
 #
-./bin/compiler R "${files[2]}"
+./bin/compiler R "${files[1]}"
