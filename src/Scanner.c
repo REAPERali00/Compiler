@@ -86,6 +86,8 @@ static ReaderPointer sourceBuffer; /* Pointer to input source buffer */
 /* TO_DO: Follow the standard and adjust datatypes */
 
 nag_i startScanner(ReaderPointer psc_buf) {
+  if (!psc_buf)
+    return EXIT_FAILURE;
   /* TO_DO: Start histogram */
   for (nag_i i = 0; i < NUM_TOKENS; i++)
     scData.scanHistogram[i] = 0;

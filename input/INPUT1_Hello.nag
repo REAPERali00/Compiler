@@ -1,10 +1,8 @@
-# BOA Example 2:
-  The program is "lexically" correct
-  and should not generate any error #
-main& {
-	data {
-	}
-	code {
-		print&('Hello world!');
-	}
+def add(nag_i a, nag_i b){
+  return a + b; 
+}
+
+def main() { 
+  int num, num2;
+  print("hello");
 }

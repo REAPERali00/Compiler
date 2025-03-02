@@ -58,7 +58,7 @@ NOTE: Some types may not be directly used by your language,
                 but they can be necessary for conversions.
 ------------------------------------------------------------
 */
-/* TO_DO: Define your typedefs */
+/* TODO: Define your typedefs */
 typedef char *nag_str;
 typedef char nag_ch;
 typedef int nag_i;

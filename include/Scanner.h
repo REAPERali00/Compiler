@@ -48,10 +48,10 @@ comments
 
 #define RTE_CODE 1 /* Value for run-time error */
 
-/* TO_DO: Define the number of tokens */
+/* TODO: Define the number of tokens */
 #define NUM_TOKENS 13
 
-/* TO_DO: Define Token codes - Create your token classes */
+/* TODO: Define Token codes - Create your token classes */
 enum TOKENS {
   ERR_T,  /*  0: Error token */
   MNID_T, /*  1: Method name identifier token (start: &) */
@@ -68,18 +68,18 @@ enum TOKENS {
   CMT_T   /* 12: Comment token */
 };
 
-/* TO_DO: Define the list of keywords */
+/* TODO: Define the list of keywords */
 static nag_str tokenStrTable[NUM_TOKENS] = {
     "ERR_T", "MNID_T", "INL_T", "STR_T", "LPR_T",  "RPR_T", "LBR_T",
     "RBR_T", "KW_T",   "EOS_T", "RTE_T", "SEOF_T", "CMT_T"};
 
-/* TO_DO: Operators token attributes */
+/* TODO: Operators token attributes */
 typedef enum ArithmeticOperators { OP_ADD, OP_SUB, OP_MUL, OP_DIV } AriOperator;
 typedef enum RelationalOperators { OP_EQ, OP_NE, OP_GT, OP_LT } RelOperator;
 typedef enum LogicalOperators { OP_AND, OP_OR, OP_NOT } LogOperator;
 typedef enum SourceEndOfFile { SEOF_0, SEOF_255 } EofOperator;
 
-/* TO_DO: Data structures for declaring the token and its attributes */
+/* TODO: Data structures for declaring the token and its attributes */
 typedef union TokenAttribute {
   nag_i codeType;                 /* integer attributes accessor */
   AriOperator arithmeticOperator; /* arithmetic operator attribute code */
@@ -96,7 +96,7 @@ typedef union TokenAttribute {
   nag_ch errLexeme[ERR_LEN + 1]; /* error token attribite */
 } TokenAttribute;
 
-/* TO_DO: Should be used if no symbol table is implemented */
+/* TODO: Should be used if no symbol table is implemented */
 typedef struct idAttibutes {
   nag_bt flags; /* Flags information */
   union {
@@ -134,7 +134,7 @@ part
  chars
  * used for tokenis include _, & and ' */
 
-/* TO_DO: Define lexeme FIXED classes */
+/* TODO: Define lexeme FIXED classes */
 /* These constants will be used on nextClass */
 #define CHRCOL0 '#'
 #define CHRCOL1 '{'
@@ -162,7 +162,7 @@ part
 #define MNID_SUF '&'
 #define COMM_SYM '#'
 
-/* TO_DO: Error states and illegal state */
+/* TODO: Error states and illegal state */
 #define ESNR 100 /* Error state with no retract */
 #define ESWR 100 /* Error state with retract */
 #define FS 100   /* Illegal state */
@@ -199,7 +199,7 @@ static nag_i transitionTable[NUM_STATES][CHAR_CLASSES] = {
 #define FSNR 1 /* accepting state with no retract */
 #define FSWR 2 /* accepting state with retract */
 
-/* TO_DO: Define list of acceptable states */
+/* TODO: Define list of acceptable states */
 static nag_i stateType[NUM_STATES] = {
     NOFS, /* 00 */
     NOFS, /* 01 */
@@ -215,7 +215,7 @@ static nag_i stateType[NUM_STATES] = {
 
 /*
 -------------------------------------------------
-TO_DO: Adjust your functions'definitions
+TODO: Adjust your functions'definitions
 -------------------------------------------------
 */
 
@@ -232,7 +232,7 @@ Automata definitions
 -------------------------------------------------
 */
 
-/* TO_DO: Pointer to function (of one char * argument) returning Token */
+/* TODO: Pointer to function (of one char * argument) returning Token */
 typedef Token (*PTR_ACCFUN)(nag_str lexeme);
 
 /* Declare accepting states functions */
@@ -248,7 +248,7 @@ Token funcErr(nag_str lexeme);
  * If you do not want to use the typedef, the equvalent declaration is:
  */
 
-/* TO_DO: Define final state table */
+/* TODO: Define final state table */
 static PTR_ACCFUN finalStateTable[NUM_STATES] = {
     NULL,    /* -    [00] */
     NULL,    /* -    [01] */
@@ -268,10 +268,10 @@ Language keywords
 -------------------------------------------------
 */
 
-/* TO_DO: Define the number of Keywords from the language */
+/* TODO: Define the number of Keywords from the language */
 #define KWT_SIZE 12
 
-/* TO_DO: Define the list of keywords */
+/* TODO: Define the list of keywords */
 static nag_str keywordTable[KWT_SIZE] = {
     "main",    /* KW00 */
     "data",    /* KW01 */
@@ -295,11 +295,11 @@ static nag_str keywordTable[KWT_SIZE] = {
 
 #define INDENT '\t' /* Tabulation */
 
-/* TO_DO: Should be used if no symbol table is implemented */
+/* TODO: Should be used if no symbol table is implemented */
 typedef struct languageAttributes {
   nag_ch indentationCharType;
   nag_i indentationCurrentPos;
-  /* TO_DO: Include any extra attribute to be used in your scanner (OPTIONAL
+  /* TODO: Include any extra attribute to be used in your scanner (OPTIONAL
   and
    * FREE) */
 } LanguageAttributes;

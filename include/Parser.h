@@ -63,7 +63,7 @@
 // #define LANG_READ "input!"
 // #define LANG_MAIN "main!"
 //
-// /* TO_DO: Create ALL constants for keywords (sequence given in table.h) */
+// /* TODO: Create ALL constants for keywords (sequence given in table.h) */
 //
 // /* Constants */
 // enum KEYWORDS {
@@ -86,7 +86,7 @@
 // nag_v syncErrorHandler(nag_i);
 // nag_v printError();
 //
-// /* TO_DO: Place ALL non-terminal function declarations */
+// /* TODO: Place ALL non-terminal function declarations */
 // nag_v program();
 // nag_v dataSession();
 // nag_v codeSession();
