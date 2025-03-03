@@ -98,49 +98,49 @@ enum READER_MODE {
 
 /* Offset declaration */
 typedef struct position {
-  nag_i mark; /* the offset to the mark position (in chars) */
-  nag_i read; /* the offset to the get a char position (in chars) */
-  nag_i write; /* the offset to the add chars (in chars) */
+  int mark;  /* the offset to the mark position (in chars) */
+  int read;  /* the offset to the get a char position (in chars) */
+  int write; /* the offset to the add chars (in chars) */
 } Position;
 
 /* Buffer structure */
 typedef struct bufferReader {
-  nag_ch *content; /* pointer to the beginning of character array (character
+  string content; /* pointer to the beginning of character array (character
                       buffer) */
-  nag_i size; /* current dynamic memory size (in bytes) allocated to character
+  int size; /* current dynamic memory size (in bytes) allocated to character
                  buffer */
-  nag_i increment; /* character array increment factor */
-  nag_i mode;      /* operational mode indicator */
-  nag_bt flags; /* contains character array floatlocation flag and end-of-buffer
+  int increment; /* character array increment factor */
+  int mode;      /* operational mode indicator */
+  byte flags; /* contains character array floatlocation flag and end-of-buffer
                    flag */
-  Position position;      /* Offset / position field */
-  nag_i histogram[NCHAR]; /* Statistics of chars */
+  Position position;    /* Offset / position field */
+  int histogram[NCHAR]; /* Statistics of chars */
 } BufferReader, *ReaderPointer;
 
 /* FUNCTIONS DECLARATION:  .................................. */
 /* General Operations */
-ReaderPointer readerCreate(nag_i, nag_i, nag_i);
-ReaderPointer readerAddChar(ReaderPointer const, nag_ch);
-nag_bl readerClear(ReaderPointer const);
-nag_bl readerFree(ReaderPointer const);
-nag_bl readerIsFull(ReaderPointer const);
-nag_bl readerIsEmpty(ReaderPointer const);
-nag_bl readerSetMark(ReaderPointer const, nag_i);
-nag_i readerPrint(ReaderPointer const);
-nag_i readerLoad(ReaderPointer const, FILE *const);
-nag_bl readerRecover(ReaderPointer const);
-nag_bl readerRetract(ReaderPointer const);
-nag_bl readerRestore(ReaderPointer const);
+ReaderPointer readerCreate(int, int, int);
+ReaderPointer readerAddChar(ReaderPointer const, char);
+bool readerClear(ReaderPointer const);
+bool readerFree(ReaderPointer const);
+bool readerIsFull(ReaderPointer const);
+bool readerIsEmpty(ReaderPointer const);
+bool readerSetMark(ReaderPointer const, int);
+int readerPrint(ReaderPointer const);
+int readerLoad(ReaderPointer const, FILE *const);
+bool readerRecover(ReaderPointer const);
+bool readerRetract(ReaderPointer const);
+bool readerRestore(ReaderPointer const);
 /* Getters */
-nag_ch readerGetChar(ReaderPointer const);
-nag_ch *readerGetContent(ReaderPointer const, nag_i);
-nag_i readerGetPosRead(ReaderPointer const);
-nag_i readerGetPosWrte(ReaderPointer const);
-nag_i readerGetPosMark(ReaderPointer const);
-nag_i readerGetSize(ReaderPointer const);
-nag_i readerGetInc(ReaderPointer const);
-nag_i readerGetMode(ReaderPointer const);
-nag_bt readerGetFlags(ReaderPointer const);
-nag_i readerShowStat(ReaderPointer const);
+char readerGetChar(ReaderPointer const);
+char *readerGetContent(ReaderPointer const, int);
+int readerGetPosRead(ReaderPointer const);
+int readerGetPosWrte(ReaderPointer const);
+int readerGetPosMark(ReaderPointer const);
+int readerGetSize(ReaderPointer const);
+int readerGetInc(ReaderPointer const);
+int readerGetMode(ReaderPointer const);
+byte readerGetFlags(ReaderPointer const);
+int readerShowStat(ReaderPointer const);
 
 #endif

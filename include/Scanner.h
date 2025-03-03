@@ -69,7 +69,7 @@ enum TOKENS {
 };
 
 /* TODO: Define the list of keywords */
-static nag_str tokenStrTable[NUM_TOKENS] = {
+static string tokenStrTable[NUM_TOKENS] = {
     "ERR_T", "MNID_T", "INL_T", "STR_T", "LPR_T",  "RPR_T", "LBR_T",
     "RBR_T", "KW_T",   "EOS_T", "RTE_T", "SEOF_T", "CMT_T"};
 
@@ -81,37 +81,37 @@ typedef enum SourceEndOfFile { SEOF_0, SEOF_255 } EofOperator;
 
 /* TODO: Data structures for declaring the token and its attributes */
 typedef union TokenAttribute {
-  nag_i codeType;                 /* integer attributes accessor */
+  int codeType;                 /* integer attributes accessor */
   AriOperator arithmeticOperator; /* arithmetic operator attribute code */
   RelOperator relationalOperator; /* relational operator attribute code */
   LogOperator logicalOperator;    /* logical operator attribute code */
   EofOperator seofType;           /* source-end-of-file attribute code */
-  nag_i intValue;                 /* integer literal attribute (value) */
-  nag_i keywordIndex;             /* keyword index in the keyword table */
-  nag_i contentString; /* string literal offset from the beginning of the
+  int intValue;                 /* integer literal attribute (value) */
+  int keywordIndex;             /* keyword index in the keyword table */
+  int contentString; /* string literal offset from the beginning of the
   string
                           literal buffer (stringLiteralTable->content) */
-  nag_fl floatValue;   /* floating-point literal attribute (value) */
-  nag_ch idLexeme[VID_LEN + 1];  /* variable identifier token attribute */
-  nag_ch errLexeme[ERR_LEN + 1]; /* error token attribite */
+  float floatValue;   /* floating-point literal attribute (value) */
+  char idLexeme[VID_LEN + 1];  /* variable identifier token attribute */
+  char errLexeme[ERR_LEN + 1]; /* error token attribite */
 } TokenAttribute;
 
 /* TODO: Should be used if no symbol table is implemented */
 typedef struct idAttibutes {
-  nag_bt flags; /* Flags information */
+  byte flags; /* Flags information */
   union {
-    nag_i intValue;        /* Integer value */
-    nag_fl floatValue;     /* Float value */
-    nag_str stringContent; /* String value */
-    nag_ch charContent;
-    nag_bl boolValue;
-    nag_bt byteValue;
+    int intValue;        /* Integer value */
+    float floatValue;     /* Float value */
+    string stringContent; /* String value */
+    char charContent;
+    bool boolValue;
+    byte byteValue;
   } values;
 } IdAttibutes;
 
 /* Token declaration */
 typedef struct Token {
-  nag_i code;               /* token code */
+  int code;               /* token code */
   TokenAttribute attribute; /* token attribute */
   IdAttibutes idAttribute;  /* not used in this scanner implementation - for
                                further use */
@@ -119,7 +119,7 @@ typedef struct Token {
 
 /* Scanner */
 typedef struct scannerData {
-  nag_i scanHistogram[NUM_TOKENS]; /* Statistics of chars */
+  int scanHistogram[NUM_TOKENS]; /* Statistics of chars */
 } ScannerData, *pScanData;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -173,7 +173,7 @@ part
 #define CHAR_CLASSES 10 // Updated number of character classes
 
 /* Expanded Transition table - type of states defined in a separate table */
-static nag_i transitionTable[NUM_STATES][CHAR_CLASSES] = {
+static int transitionTable[NUM_STATES][CHAR_CLASSES] = {
     /*     L(0),  D(1),  U(2), B1(3),  Q(4), QQ(5),  S(6),  P(7), V_id(8),
     O(9)
      */
@@ -200,7 +200,7 @@ static nag_i transitionTable[NUM_STATES][CHAR_CLASSES] = {
 #define FSWR 2 /* accepting state with retract */
 
 /* TODO: Define list of acceptable states */
-static nag_i stateType[NUM_STATES] = {
+static int stateType[NUM_STATES] = {
     NOFS, /* 00 */
     NOFS, /* 01 */
     FSNR, /* 02 (MID) - Methods */
@@ -220,9 +220,9 @@ TODO: Adjust your functions'definitions
 */
 
 /* Static (local) function  prototypes */
-nag_i startScanner(ReaderPointer psc_buf);
-static nag_i nextClass(nag_ch c);      /* character class function */
-static nag_i nextState(nag_i, nag_ch); /* state machine function */
+int startScanner(ReaderPointer psc_buf);
+static int nextClass(char c);      /* character class function */
+static int nextState(int, char); /* state machine function */
 void printScannerData(ScannerData scData);
 Token tokenizer(void);
 
@@ -233,15 +233,15 @@ Automata definitions
 */
 
 /* TODO: Pointer to function (of one char * argument) returning Token */
-typedef Token (*PTR_ACCFUN)(nag_str lexeme);
+typedef Token (*PTR_ACCFUN)(string lexeme);
 
 /* Declare accepting states functions */
-Token funcSL(nag_str lexeme);
-Token funcIL(nag_str lexeme);
-Token funcID(nag_str lexeme);
-Token funcCMT(nag_str lexeme);
-Token funcKEY(nag_str lexeme);
-Token funcErr(nag_str lexeme);
+Token funcSL(string lexeme);
+Token funcIL(string lexeme);
+Token funcID(string lexeme);
+Token funcCMT(string lexeme);
+Token funcKEY(string lexeme);
+Token funcErr(string lexeme);
 
 /*
  * Accepting function (action) callback table (array) definition
@@ -272,7 +272,7 @@ Language keywords
 #define KWT_SIZE 12
 
 /* TODO: Define the list of keywords */
-static nag_str keywordTable[KWT_SIZE] = {
+static string keywordTable[KWT_SIZE] = {
     "main",    /* KW00 */
     "data",    /* KW01 */
     "code",    /* KW02 */
@@ -297,15 +297,15 @@ static nag_str keywordTable[KWT_SIZE] = {
 
 /* TODO: Should be used if no symbol table is implemented */
 typedef struct languageAttributes {
-  nag_ch indentationCharType;
-  nag_i indentationCurrentPos;
+  char indentationCharType;
+  int indentationCurrentPos;
   /* TODO: Include any extra attribute to be used in your scanner (OPTIONAL
   and
    * FREE) */
 } LanguageAttributes;
 
 /* Number of errors */
-nag_i numScannerErrors;
+int numScannerErrors;
 
 /* Scanner data */
 ScannerData scData;

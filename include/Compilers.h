@@ -48,8 +48,8 @@
  */
 
 /* Logical constants - adapt for your language */
-#define nag_TRUE 1
-#define nag_FALSE 0
+#define TRUE 1
+#define FALSE 0
 
 /*
 ------------------------------------------------------------
@@ -59,17 +59,10 @@ NOTE: Some types may not be directly used by your language,
 ------------------------------------------------------------
 */
 /* TODO: Define your typedefs */
-typedef char *nag_str;
-typedef char nag_ch;
-typedef int nag_i;
-typedef float nag_fl;
-typedef void nag_v;
 
-typedef unsigned char nag_bl;
-typedef unsigned char nag_bt;
-
-typedef long nag_l;
-typedef double nag_do;
+typedef char *string;
+typedef unsigned char bool;
+typedef unsigned char byte;
 
 /*
 ------------------------------------------------------------
@@ -87,9 +80,9 @@ Main functions signatures
 (Code will be updated during next assignments)
 ------------------------------------------------------------
 */
-nag_i mainReader(nag_i argc, nag_ch **argv);
-nag_i mainScanner(nag_i argc, nag_ch **argv);
-// nag_i mainParser(nag_i argc, nag_ch **argv);
-nag_v printLogo();
+int mainReader(int argc, string *argv);
+int mainScanner(int argc, string *argv);
+int mainParser(int argc, string *argv);
+void printLogo();
 
 #endif

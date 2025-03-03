@@ -71,7 +71,7 @@
 *************************************************************
 */
 
-ReaderPointer readerCreate(nag_i size, nag_i increment, nag_i mode) {
+ReaderPointer readerCreate(int size, int increment, int mode) {
   ReaderPointer readerPointer;
 
   if (size == 0 || increment == 0 || mode == 0) {
@@ -84,7 +84,7 @@ ReaderPointer readerCreate(nag_i size, nag_i increment, nag_i mode) {
   if (!readerPointer)
     return NULL;
 
-  readerPointer->content = (nag_ch *)malloc(size);
+  readerPointer->content = (char *)malloc(size);
   if (!readerPointer->content)
     return NULL;
 
@@ -112,9 +112,9 @@ ReaderPointer readerCreate(nag_i size, nag_i increment, nag_i mode) {
 *************************************************************
 */
 
-ReaderPointer readerAddChar(ReaderPointer const readerPointer, nag_ch ch) {
-  nag_ch *tempReader;
-  nag_i newSize = 0;
+ReaderPointer readerAddChar(ReaderPointer const readerPointer, char ch) {
+  char *tempReader;
+  int newSize = 0;
 
   if (!readerPointer || ch < 0)
     return NULL;
@@ -123,7 +123,7 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, nag_ch ch) {
   // statement will set it
   readerPointer->flags = readerPointer->flags & ~READER_REL_FLAG;
 
-  if (readerPointer->position.write * (nag_i)sizeof(nag_ch) >=
+  if (readerPointer->position.write * (int)sizeof(char) >=
       readerPointer->size) {
 
     readerPointer->flags = readerPointer->flags | READER_FUL_FLAG;
@@ -176,9 +176,9 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, nag_ch ch) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_bl readerClear(ReaderPointer const readerPointer) {
+bool readerClear(ReaderPointer const readerPointer) {
   if (!readerPointer)
-    return nag_FALSE;
+    return FALSE;
 
   // reset position conditions?
   readerPointer->position.mark = 0;
@@ -190,7 +190,7 @@ nag_bl readerClear(ReaderPointer const readerPointer) {
   for (int i = 0; i < NCHAR; i++)
     readerPointer->histogram[i] = 0;
 
-  return nag_TRUE;
+  return TRUE;
 }
 
 /*
@@ -207,13 +207,13 @@ nag_bl readerClear(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_bl readerFree(ReaderPointer const readerPointer) {
+bool readerFree(ReaderPointer const readerPointer) {
   if (!readerPointer)
-    return nag_FALSE;
+    return FALSE;
   free(readerPointer->content);
   free(readerPointer);
 
-  return nag_TRUE;
+  return TRUE;
 }
 
 /*
@@ -230,14 +230,14 @@ nag_bl readerFree(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_bl readerIsFull(ReaderPointer const readerPointer) {
+bool readerIsFull(ReaderPointer const readerPointer) {
   if (!readerPointer)
-    return nag_FALSE;
+    return FALSE;
 
   if (readerPointer->flags & READER_FUL_FLAG)
-    return nag_TRUE;
+    return TRUE;
 
-  return nag_FALSE;
+  return FALSE;
 }
 
 /*
@@ -254,9 +254,9 @@ nag_bl readerIsFull(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_bl readerIsEmpty(ReaderPointer const readerPointer) {
+bool readerIsEmpty(ReaderPointer const readerPointer) {
   if (!readerPointer)
-    return nag_TRUE; // at the moment, the behavior is set to be true since,
+    return TRUE; // at the moment, the behavior is set to be true since,
                      // well, techincally it would be empty if pinter is null?
   return (readerPointer->flags & READER_EMP_FLAG);
 }
@@ -276,11 +276,11 @@ nag_bl readerIsEmpty(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_bl readerSetMark(ReaderPointer const readerPointer, nag_i mark) {
+bool readerSetMark(ReaderPointer const readerPointer, int mark) {
   if (!readerPointer || mark < 0 || mark > readerPointer->position.write)
-    return nag_FALSE;
+    return FALSE;
   readerPointer->position.mark = mark;
-  return nag_TRUE;
+  return TRUE;
 }
 
 /*
@@ -297,8 +297,8 @@ nag_bl readerSetMark(ReaderPointer const readerPointer, nag_i mark) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_i readerPrint(ReaderPointer const readerPointer) {
-  nag_ch c;
+int readerPrint(ReaderPointer const readerPointer) {
+  char c;
   if (!readerPointer)
     return 0;
   // check if the end of file is reached by checking the end flag
@@ -327,14 +327,14 @@ nag_i readerPrint(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_i readerLoad(ReaderPointer const readerPointer,
+int readerLoad(ReaderPointer const readerPointer,
                  FILE *const fileDescriptor) {
-  nag_i size = 0;
-  nag_ch c;
+  int size = 0;
+  char c;
   if (!readerPointer || !fileDescriptor)
     return READER_ERROR;
 
-  c = (nag_ch)fgetc(fileDescriptor);
+  c = (char)fgetc(fileDescriptor);
   while (!feof(fileDescriptor)) {
     if (!readerAddChar(readerPointer, c)) {
       ungetc(c, fileDescriptor);
@@ -360,14 +360,14 @@ nag_i readerLoad(ReaderPointer const readerPointer,
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_bl readerRecover(ReaderPointer const readerPointer) {
+bool readerRecover(ReaderPointer const readerPointer) {
   if (!readerPointer)
-    return nag_FALSE;
+    return FALSE;
 
   readerPointer->position.mark = 0;
   readerPointer->position.read = 0;
 
-  return nag_TRUE;
+  return TRUE;
 }
 
 /*
@@ -384,14 +384,14 @@ nag_bl readerRecover(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_bl readerRetract(ReaderPointer const readerPointer) {
+bool readerRetract(ReaderPointer const readerPointer) {
   if (!readerPointer)
-    return nag_FALSE;
+    return FALSE;
 
   if (readerPointer->position.read > 0)
     readerPointer->position.read--;
 
-  return nag_TRUE;
+  return TRUE;
 }
 
 /*
@@ -408,11 +408,11 @@ nag_bl readerRetract(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_bl readerRestore(ReaderPointer const readerPointer) {
+bool readerRestore(ReaderPointer const readerPointer) {
   if (!readerPointer)
-    return nag_FALSE;
+    return FALSE;
   readerPointer->position.read = readerPointer->position.mark;
-  return nag_TRUE;
+  return TRUE;
 }
 
 /*
@@ -429,7 +429,7 @@ nag_bl readerRestore(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_ch readerGetChar(ReaderPointer const readerPointer) {
+char readerGetChar(ReaderPointer const readerPointer) {
   /* TO_DO: Defensive programming */
   if (!readerPointer)
     return '\0';
@@ -462,7 +462,7 @@ nag_ch readerGetChar(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_ch *readerGetContent(ReaderPointer const readerPointer, nag_i pos) {
+char *readerGetContent(ReaderPointer const readerPointer, int pos) {
   if (!readerPointer || pos > readerPointer->position.write)
     return NULL;
   return readerPointer->content + pos;
@@ -482,7 +482,7 @@ nag_ch *readerGetContent(ReaderPointer const readerPointer, nag_i pos) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_i readerGetPosRead(ReaderPointer const readerPointer) {
+int readerGetPosRead(ReaderPointer const readerPointer) {
   /* TO_DO: Defensive programming */
   if (!readerPointer)
     return 0;
@@ -504,7 +504,7 @@ nag_i readerGetPosRead(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_i readerGetPosWrte(ReaderPointer const readerPointer) {
+int readerGetPosWrte(ReaderPointer const readerPointer) {
   if (!readerPointer)
     return 0;
   /* TO_DO: Return read */
@@ -525,7 +525,7 @@ nag_i readerGetPosWrte(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_i readerGetPosMark(ReaderPointer const readerPointer) {
+int readerGetPosMark(ReaderPointer const readerPointer) {
   if (!readerPointer)
     return 0;
   /* TO_DO: Return read */
@@ -546,7 +546,7 @@ nag_i readerGetPosMark(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_i readerGetSize(ReaderPointer const readerPointer) {
+int readerGetSize(ReaderPointer const readerPointer) {
   if (!readerPointer)
     return READER_ERROR;
   return readerPointer->size;
@@ -566,7 +566,7 @@ nag_i readerGetSize(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_i readerGetInc(ReaderPointer const readerPointer) {
+int readerGetInc(ReaderPointer const readerPointer) {
   if (!readerPointer)
     return READER_ERROR;
   return readerPointer->increment;
@@ -586,7 +586,7 @@ nag_i readerGetInc(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_i readerGetMode(ReaderPointer const readerPointer) {
+int readerGetMode(ReaderPointer const readerPointer) {
   if (!readerPointer)
     return READER_ERROR;
   return readerPointer->mode;
@@ -606,7 +606,7 @@ nag_i readerGetMode(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_bt readerGetFlags(ReaderPointer const readerPointer) {
+byte readerGetFlags(ReaderPointer const readerPointer) {
   if (!readerPointer)
     return '\0';
   return readerPointer->flags;
@@ -626,7 +626,7 @@ nag_bt readerGetFlags(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-nag_i readerShowStat(ReaderPointer const readerPointer) {
+int readerShowStat(ReaderPointer const readerPointer) {
   if (!readerPointer)
     return READER_ERROR;
   int sum = 0;

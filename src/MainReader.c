@@ -80,11 +80,11 @@
  *  Function declarations
  * -------------------------------------------------------------
  */
-nag_v bErrorPrint(nag_ch *fmt, ...);
-nag_v displayBuffer(BufferReader *ptr_Buffer);
-nag_l getFileSize(nag_ch *fname);
-nag_i isNumber(const nag_ch *ns);
-nag_v startReader(nag_ch *, nag_ch *, nag_ch, nag_i, nag_i);
+void bErrorPrint(char *fmt, ...);
+void displayBuffer(BufferReader *ptr_Buffer);
+long getFileSize(char *fname);
+int isNumber(const char *ns);
+void startReader(char *, char *, char, int, int);
 
 /*
 ************************************************************
@@ -96,13 +96,13 @@ nag_v startReader(nag_ch *, nag_ch *, nag_ch, nag_i, nag_i);
 ************************************************************
 */
 
-nag_i mainReader(nag_i argc, nag_ch **argv) {
+int mainReader(int argc, char **argv) {
 
   /* Create source input buffer */
-  nag_ch *program = argv[0];
-  nag_ch *input = argv[2];
-  nag_ch mode = MODE_FIXED;
-  nag_i size = 0, increment = 0, wrongNumber = 0;
+  char *program = argv[0];
+  char *input = argv[2];
+  char mode = MODE_FIXED;
+  int size = 0, increment = 0, wrongNumber = 0;
 
   /* Missing file name or/and mode parameter */
   if (argc <= 2) {
@@ -166,13 +166,13 @@ nag_i mainReader(nag_i argc, nag_ch **argv) {
 *	- Increment: buffer increment.
 ************************************************************
 */
-nag_v startReader(nag_ch *program, nag_ch *input, nag_ch mode, nag_i size,
-                  nag_i increment) {
+void startReader(char *program, char *input, char mode, int size,
+                  int increment) {
 
   ReaderPointer bufferp; /* pointer to Buffer structure */
   FILE *fileHandler;     /* input file handle */
-  nag_i loadSize = 0;    /* the size of the file loaded in the buffer */
-  nag_ch symbol;         /* symbol read from input file */
+  int loadSize = 0;    /* the size of the file loaded in the buffer */
+  char symbol;         /* symbol read from input file */
 
   /* Create buffer */
   bufferp = readerCreate(size, (char)increment, mode);
@@ -234,12 +234,12 @@ nag_v startReader(nag_ch *program, nag_ch *input, nag_ch mode, nag_i size,
 ************************************************************
 */
 
-nag_v bErrorPrint(nag_ch *fmt, ...) {
+void bErrorPrint(char *fmt, ...) {
   /* Initialize variable list */
   va_list ap;
   va_start(ap, fmt);
 
-  (nag_v) vfprintf(stderr, fmt, ap);
+  (void) vfprintf(stderr, fmt, ap);
   va_end(ap);
 
   /* Move to new line */
@@ -254,7 +254,7 @@ nag_v bErrorPrint(nag_ch *fmt, ...) {
 ************************************************************
 */
 
-nag_v displayBuffer(BufferReader *ptr_Buffer) {
+void displayBuffer(BufferReader *ptr_Buffer) {
   printf("\nPrinting buffer parameters:\n\n");
   printf("The capacity of the buffer is:  %d\n", readerGetSize(ptr_Buffer));
   printf("The current size of the buffer is:  %d\n",
@@ -282,9 +282,9 @@ nag_v displayBuffer(BufferReader *ptr_Buffer) {
 ************************************************************
 */
 
-nag_l getFileSize(nag_ch *fname) {
+long getFileSize(char *fname) {
   FILE *input;
-  nag_l flength;
+  long flength;
   input = fopen(fname, "r");
   if (input == NULL) {
     bErrorPrint("%s%s", "Cannot open file: ", fname);
@@ -307,9 +307,9 @@ nag_l getFileSize(nag_ch *fname) {
 ************************************************************
 */
 
-nag_i isNumber(const nag_ch *ns) {
-  nag_ch c;
-  nag_i i = 0;
+int isNumber(const char *ns) {
+  char c;
+  int i = 0;
   if (ns == NULL)
     return 0;
   while ((c = ns[i++]) != 0) {

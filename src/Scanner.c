@@ -64,13 +64,13 @@ TO_DO: Global vars definitions
 /* Global objects - variables */
 /* This buffer is used as a repository for string literals. */
 extern ReaderPointer stringLiteralTable; /* String literal table */
-nag_i line;               /* Current line number of the source code */
-extern nag_i errorNumber; /* Defined in platy_st.c - run-time error number */
+int line;               /* Current line number of the source code */
+extern int errorNumber; /* Defined in platy_st.c - run-time error number */
 
-extern nag_i stateType[NUM_STATES];
-extern nag_str keywordTable[KWT_SIZE];
+extern int stateType[NUM_STATES];
+extern string keywordTable[KWT_SIZE];
 extern PTR_ACCFUN finalStateTable[NUM_STATES];
-extern nag_i transitionTable[NUM_STATES][CHAR_CLASSES];
+extern int transitionTable[NUM_STATES][CHAR_CLASSES];
 
 /* Local(file) global objects - variables */
 static ReaderPointer lexemeBuffer; /* Pointer to temporary lexeme buffer */
@@ -85,11 +85,11 @@ static ReaderPointer sourceBuffer; /* Pointer to input source buffer */
  */
 /* TO_DO: Follow the standard and adjust datatypes */
 
-nag_i startScanner(ReaderPointer psc_buf) {
+int startScanner(ReaderPointer psc_buf) {
   if (!psc_buf)
     return EXIT_FAILURE;
   /* TO_DO: Start histogram */
-  for (nag_i i = 0; i < NUM_TOKENS; i++)
+  for (int i = 0; i < NUM_TOKENS; i++)
     scData.scanHistogram[i] = 0;
   /* Basic scanner initialization */
   /* in case the buffer has been read previously  */
@@ -117,16 +117,16 @@ Token tokenizer(void) {
 
   Token currentToken = {0}; /* token to return after pattern recognition. Set
                                all structure members to 0 */
-  nag_ch c;                 /* input symbol */
-  nag_i state = 0;          /* initial state of the FSM */
-  nag_i lexStart; /* start offset of a lexeme in the input char buffer (array)
+  char c;                 /* input symbol */
+  int state = 0;          /* initial state of the FSM */
+  int lexStart; /* start offset of a lexeme in the input char buffer (array)
                    */
-  nag_i lexEnd;   /* end offset of a lexeme in the input char buffer (array)*/
+  int lexEnd;   /* end offset of a lexeme in the input char buffer (array)*/
 
-  nag_i lexLength; /* token length */
-  nag_i i;         /* counter */
+  int lexLength; /* token length */
+  int i;         /* counter */
   /*
-  nag_ch newc;			// new char
+  char newc;			// new char
   */
 
   while (1) { /* endless loop broken by token returns it will generate a warning
@@ -210,7 +210,7 @@ Token tokenizer(void) {
         readerRetract(sourceBuffer);
       lexEnd = readerGetPosRead(sourceBuffer);
       lexLength = lexEnd - lexStart;
-      lexemeBuffer = readerCreate((nag_i)lexLength + 2, 0, MODE_FIXED);
+      lexemeBuffer = readerCreate((int)lexLength + 2, 0, MODE_FIXED);
       if (!lexemeBuffer) {
         fprintf(stderr, "Scanner error: Can not create buffer\n");
         exit(1);
@@ -256,9 +256,9 @@ Token tokenizer(void) {
  */
 /* TO_DO: Just change the datatypes */
 
-nag_i nextState(nag_i state, nag_ch c) {
-  nag_i col;
-  nag_i next;
+int nextState(int state, char c) {
+  int col;
+  int next;
   col = nextClass(c);
   next = transitionTable[state][col];
   if (DEBUG)
@@ -288,8 +288,8 @@ nag_i nextState(nag_i state, nag_ch c) {
 /*    [A-z],[0-9],    _,    &,   \', SEOF,    #, other
                L(0), D(1), U(2), M(3), Q(4), E(5), C(6),  O(7) */
 
-nag_i nextClass(nag_ch c) {
-  nag_i val = -1;
+int nextClass(char c) {
+  int val = -1;
   switch (c) {
   case CHRCOL2:
     val = 2;
@@ -326,9 +326,9 @@ nag_i nextClass(nag_ch c) {
  */
 /* TO_DO: Adjust the function for IL */
 
-Token funcCMT(nag_str lexeme) {
+Token funcCMT(string lexeme) {
   Token currentToken = {0};
-  nag_i i = 0, len = (nag_i)strlen(lexeme);
+  int i = 0, len = (int)strlen(lexeme);
   currentToken.attribute.contentString = readerGetPosWrte(stringLiteralTable);
   for (i = 1; i < len - 1; i++) {
     if (lexeme[i] == '\n')
@@ -351,7 +351,7 @@ Token funcCMT(nag_str lexeme) {
  */
 /* TO_DO: Adjust the function for IL */
 
-Token funcIL(nag_str lexeme) {
+Token funcIL(string lexeme) {
   Token currentToken = {0};
   long tlong;
   if (lexeme[0] != '\0' && strlen(lexeme) > NUM_LEN) {
@@ -361,7 +361,7 @@ Token funcIL(nag_str lexeme) {
     if (tlong >= 0 && tlong <= SHRT_MAX) {
       currentToken.code = INL_T;
       scData.scanHistogram[currentToken.code]++;
-      currentToken.attribute.intValue = (nag_i)tlong;
+      currentToken.attribute.intValue = (int)tlong;
     } else {
       currentToken = (*finalStateTable[ESNR])(lexeme);
     }
@@ -383,16 +383,16 @@ Token funcIL(nag_str lexeme) {
  */
 /* TO_DO: Adjust the function for ID */
 
-Token funcID(nag_str lexeme) {
+Token funcID(string lexeme) {
   Token currentToken = {0};
   size_t length = strlen(lexeme);
-  nag_ch lastch = lexeme[length - 1];
-  nag_i isID = nag_FALSE;
+  char lastch = lexeme[length - 1];
+  int isID = FALSE;
   switch (lastch) {
   case MNID_SUF:
     currentToken.code = MNID_T;
     scData.scanHistogram[currentToken.code]++;
-    isID = nag_TRUE;
+    isID = TRUE;
     break;
   default:
     // Test Keyword
@@ -400,7 +400,7 @@ Token funcID(nag_str lexeme) {
     currentToken = funcKEY(lexeme);
     break;
   }
-  if (isID == nag_TRUE) {
+  if (isID == TRUE) {
     strncpy(currentToken.attribute.idLexeme, lexeme, VID_LEN);
     currentToken.attribute.idLexeme[VID_LEN] = CHARSEOF0;
   }
@@ -419,9 +419,9 @@ Token funcID(nag_str lexeme) {
 */
 /* TO_DO: Adjust the function for SL */
 
-Token funcSL(nag_str lexeme) {
+Token funcSL(string lexeme) {
   Token currentToken = {0};
-  nag_i i = 0, len = (nag_i)strlen(lexeme);
+  int i = 0, len = (int)strlen(lexeme);
   currentToken.attribute.contentString = readerGetPosWrte(stringLiteralTable);
   for (i = 1; i < len - 1; i++) {
     if (lexeme[i] == '\n')
@@ -454,10 +454,10 @@ Token funcSL(nag_str lexeme) {
 */
 /* TO_DO: Adjust the function for Keywords */
 
-Token funcKEY(nag_str lexeme) {
+Token funcKEY(string lexeme) {
   Token currentToken = {0};
-  nag_i kwindex = -1, j = 0;
-  nag_i len = (nag_i)strlen(lexeme);
+  int kwindex = -1, j = 0;
+  int len = (int)strlen(lexeme);
   lexeme[len - 1] = '\0';
   for (j = 0; j < KWT_SIZE; j++)
     if (!strcmp(lexeme, &keywordTable[j][0]))
@@ -484,9 +484,9 @@ Token funcKEY(nag_str lexeme) {
 */
 /* TO_DO: Adjust the function for Errors */
 
-Token funcErr(nag_str lexeme) {
+Token funcErr(string lexeme) {
   Token currentToken = {0};
-  nag_i i = 0, len = (nag_i)strlen(lexeme);
+  int i = 0, len = (int)strlen(lexeme);
   if (len > ERR_LEN) {
     strncpy(currentToken.attribute.errLexeme, lexeme, ERR_LEN - 3);
     currentToken.attribute.errLexeme[ERR_LEN - 3] = CHARSEOF0;
@@ -509,7 +509,7 @@ Token funcErr(nag_str lexeme) {
  */
 
 void printToken(Token t) {
-  extern nag_str keywordTable[]; /* link to keyword table in */
+  extern string keywordTable[]; /* link to keyword table in */
   switch (t.code) {
   case RTE_T:
     printf("RTE_T\t\t%s", t.attribute.errLexeme);
@@ -530,9 +530,9 @@ void printToken(Token t) {
     printf("MNID_T\t\t%s\n", t.attribute.idLexeme);
     break;
   case STR_T:
-    printf("STR_T\t\t%d\t ", (nag_i)t.attribute.codeType);
+    printf("STR_T\t\t%d\t ", (int)t.attribute.codeType);
     printf("%s\n",
-           readerGetContent(stringLiteralTable, (nag_i)t.attribute.codeType));
+           readerGetContent(stringLiteralTable, (int)t.attribute.codeType));
     break;
   case LPR_T:
     printf("LPR_T\n");
