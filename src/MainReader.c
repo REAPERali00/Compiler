@@ -80,11 +80,11 @@
  *  Function declarations
  * -------------------------------------------------------------
  */
-void bErrorPrint(char *fmt, ...);
+void bErrorPrint(string fmt, ...);
 void displayBuffer(BufferReader *ptr_Buffer);
-long getFileSize(char *fname);
-int isNumber(const char *ns);
-void startReader(char *, char *, char, int, int);
+long getFileSize(string fname);
+int isNumber(const string ns);
+void startReader(string , string , char, int, int);
 
 /*
 ************************************************************
@@ -96,11 +96,11 @@ void startReader(char *, char *, char, int, int);
 ************************************************************
 */
 
-int mainReader(int argc, char **argv) {
+int mainReader(int argc, string *argv) {
 
   /* Create source input buffer */
-  char *program = argv[0];
-  char *input = argv[2];
+  string program = argv[0];
+  string input = argv[2];
   char mode = MODE_FIXED;
   int size = 0, increment = 0, wrongNumber = 0;
 
@@ -166,7 +166,7 @@ int mainReader(int argc, char **argv) {
 *	- Increment: buffer increment.
 ************************************************************
 */
-void startReader(char *program, char *input, char mode, int size,
+void startReader(string program, string input, char mode, int size,
                   int increment) {
 
   ReaderPointer bufferp; /* pointer to Buffer structure */
@@ -234,7 +234,7 @@ void startReader(char *program, char *input, char mode, int size,
 ************************************************************
 */
 
-void bErrorPrint(char *fmt, ...) {
+void bErrorPrint(string fmt, ...) {
   /* Initialize variable list */
   va_list ap;
   va_start(ap, fmt);
@@ -282,7 +282,7 @@ void displayBuffer(BufferReader *ptr_Buffer) {
 ************************************************************
 */
 
-long getFileSize(char *fname) {
+long getFileSize(string fname) {
   FILE *input;
   long flength;
   input = fopen(fname, "r");
@@ -307,7 +307,7 @@ long getFileSize(char *fname) {
 ************************************************************
 */
 
-int isNumber(const char *ns) {
+int isNumber(const string ns) {
   char c;
   int i = 0;
   if (ns == NULL)

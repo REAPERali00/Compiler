@@ -74,9 +74,9 @@ extern Token tokenizer();
  *  Function declarations
  * -------------------------------------------------------------
  */
-void printScannerError(char *fmt, ...);
+void printScannerError(string fmt, ...);
 void displayScanner(BufferReader *ptrBuffer);
-long getScannerFilesize(char *fname);
+long getScannerFilesize(string fname);
 void printToken(Token t);
 
 /*
@@ -89,7 +89,7 @@ void printToken(Token t);
 ***********************************************************
 */
 
-int mainScanner(int argc, char **argv) {
+int mainScanner(int argc, string *argv) {
 
   ReaderPointer sourceBuffer; /* Pointer to input (source) buffer */
   FILE *fileHandler;          /* Input file handle */
@@ -200,7 +200,7 @@ int mainScanner(int argc, char **argv) {
 ***********************************************************
 */
 
-void printScannerError(char *fmt, ...) {
+void printScannerError(string fmt, ...) {
   va_list ap;
   va_start(ap, fmt);
   (void)vfprintf(stderr, fmt, ap);
@@ -238,7 +238,7 @@ void displayScanner(BufferReader *ptrBuffer) {
  ***********************************************************
  */
 
-long getScannerFilesize(char *fname) {
+long getScannerFilesize(string fname) {
   FILE *fileInput;
   long fileLength;
   fileInput = fopen(fname, "r");

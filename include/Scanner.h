@@ -232,7 +232,7 @@ Automata definitions
 -------------------------------------------------
 */
 
-/* TODO: Pointer to function (of one char * argument) returning Token */
+/* TODO: Pointer to function (of one string  argument) returning Token */
 typedef Token (*PTR_ACCFUN)(string lexeme);
 
 /* Declare accepting states functions */

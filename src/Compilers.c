@@ -71,7 +71,7 @@ int main(int argc, string *argv) {
       printf("argv[%d] = %s\n", i, argv[i]);
 
     // TODO: for test phase only , REMOVE THIS
-    // char *args[] = {"compiler", "R", "../input/INPUT4_Datatypes.nag"};
+    // string args[] = {"compiler", "R", "../input/INPUT4_Datatypes.nag"};
     // mainReader(3, args);
     // exit(0);
   }

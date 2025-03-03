@@ -133,7 +133,7 @@ bool readerRetract(ReaderPointer const);
 bool readerRestore(ReaderPointer const);
 /* Getters */
 char readerGetChar(ReaderPointer const);
-char *readerGetContent(ReaderPointer const, int);
+string readerGetContent(ReaderPointer const, int);
 int readerGetPosRead(ReaderPointer const);
 int readerGetPosWrte(ReaderPointer const);
 int readerGetPosMark(ReaderPointer const);

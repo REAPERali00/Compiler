@@ -84,7 +84,7 @@ ReaderPointer readerCreate(int size, int increment, int mode) {
   if (!readerPointer)
     return NULL;
 
-  readerPointer->content = (char *)malloc(size);
+  readerPointer->content = (string )malloc(size);
   if (!readerPointer->content)
     return NULL;
 
@@ -113,7 +113,7 @@ ReaderPointer readerCreate(int size, int increment, int mode) {
 */
 
 ReaderPointer readerAddChar(ReaderPointer const readerPointer, char ch) {
-  char *tempReader;
+  string tempReader;
   int newSize = 0;
 
   if (!readerPointer || ch < 0)
@@ -144,7 +144,7 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, char ch) {
     if (newSize < 0 || newSize > READER_MAX_SIZE)
       return NULL;
 
-    tempReader = (char *)malloc(newSize);
+    tempReader = (string )malloc(newSize);
     if (!tempReader)
       return NULL;
     strcpy(tempReader, readerPointer->content);
@@ -462,7 +462,7 @@ char readerGetChar(ReaderPointer const readerPointer) {
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
-char *readerGetContent(ReaderPointer const readerPointer, int pos) {
+string readerGetContent(ReaderPointer const readerPointer, int pos) {
   if (!readerPointer || pos > readerPointer->position.write)
     return NULL;
   return readerPointer->content + pos;
