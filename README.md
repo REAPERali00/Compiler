@@ -6,17 +6,18 @@ This is a compiler written in C for the Nagini Language, a python like language
 
 | Feature       | Finished | Not Done | In Progress |
 | :------------ | :------: | :------: | :---------: |
-| Buffer        |          |          |      ✓      |
-| Scanner       |          |    ✓     |             |
+| Buffer        |    ✓     |          |             |
+| Scanner       |          |          |      ✓      |
 | Parser        |          |    ✓     |             |
 | Documentation |          |          |      ✓      |
+| Tests         |          |    ✓     |             |
 
 ## Goals
 
 - [ ] be python like
 - [ ] replace spaces with brackets replace spaces with brackets
 - [ ] have variable types (int, double, string, char)have variable types (int, double, string, char)
-- [ ] lines and with semicolonlines and with semicolon
+- [ ] lines end with semicolon
 
 ## Dependencies
 
