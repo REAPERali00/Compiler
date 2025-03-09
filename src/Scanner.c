@@ -21,7 +21,7 @@
 ************************************************************
 */
 
-/* TO_DO: Adjust the function header */
+/* TODO: Adjust the function header */
 
 /* The #define _CRT_SECURE_NO_WARNINGS should be used in MS Visual Studio
  * projects to suppress the warnings about using "unsafe" functions like
@@ -57,7 +57,7 @@
 
 /*
 ----------------------------------------------------------------
-TO_DO: Global vars definitions
+TODO: Global vars definitions
 ----------------------------------------------------------------
 */
 
@@ -83,12 +83,12 @@ static ReaderPointer sourceBuffer; /* Pointer to input source buffer */
  *programming.
  ***********************************************************
  */
-/* TO_DO: Follow the standard and adjust datatypes */
+/* TODO: Follow the standard and adjust datatypes */
 
 int startScanner(ReaderPointer psc_buf) {
   if (!psc_buf)
     return EXIT_FAILURE;
-  /* TO_DO: Start histogram */
+  /* TODO: Start histogram */
   for (int i = 0; i < NUM_TOKENS; i++)
     scData.scanHistogram[i] = 0;
   /* Basic scanner initialization */
@@ -113,14 +113,14 @@ int startScanner(ReaderPointer psc_buf) {
 
 Token tokenizer(void) {
 
-  /* TO_DO: Follow the standard and adjust datatypes */
+  /* TODO: Follow the standard and adjust datatypes */
 
   Token currentToken = {0}; /* token to return after pattern recognition. Set
                                all structure members to 0 */
-  char c;                 /* input symbol */
-  int state = 0;          /* initial state of the FSM */
+  char c;                   /* input symbol */
+  int state = 0;            /* initial state of the FSM */
   int lexStart; /* start offset of a lexeme in the input char buffer (array)
-                   */
+                 */
   int lexEnd;   /* end offset of a lexeme in the input char buffer (array)*/
 
   int lexLength; /* token length */
@@ -140,7 +140,7 @@ Token tokenizer(void) {
             -----------------------------------------------------------------------
     */
 
-    /* TO_DO: All patterns that do not require accepting functions */
+    /* TODO: All patterns that do not require accepting functions */
     switch (c) {
 
       /* Cases for spaces */
@@ -194,7 +194,7 @@ Token tokenizer(void) {
               -----------------------------------------------------------------------
       */
 
-      /* TO_DO: Adjust / check the logic for your language */
+      /* TODO: Adjust / check the logic for your language */
 
     default: // general case
       state = nextState(state, c);
@@ -254,7 +254,7 @@ Token tokenizer(void) {
         or #undef DEBUG is used - see the top of the file.
  ***********************************************************
  */
-/* TO_DO: Just change the datatypes */
+/* TODO: Just change the datatypes */
 
 int nextState(int state, char c) {
   int col;
@@ -282,7 +282,7 @@ int nextState(int state, char c) {
  * For instance, a letter should return the column for letters, etc.
  ***********************************************************
  */
-/* TO_DO: Use your column configuration */
+/* TODO: Use your column configuration */
 
 /* Adjust the logic to return next column in TT */
 /*    [A-z],[0-9],    _,    &,   \', SEOF,    #, other
@@ -324,7 +324,7 @@ int nextClass(char c) {
  *		Function responsible to identify COM (comments).
  ***********************************************************
  */
-/* TO_DO: Adjust the function for IL */
+/* TODO: Adjust the function for IL */
 
 Token funcCMT(string lexeme) {
   Token currentToken = {0};
@@ -349,7 +349,7 @@ Token funcCMT(string lexeme) {
  *   additional three dots (...) should be put in the output.
  ***********************************************************
  */
-/* TO_DO: Adjust the function for IL */
+/* TODO: Adjust the function for IL */
 
 Token funcIL(string lexeme) {
   Token currentToken = {0};
@@ -381,7 +381,7 @@ Token funcIL(string lexeme) {
  *  - Suggestion: Use "strncpy" function.
  ***********************************************************
  */
-/* TO_DO: Adjust the function for ID */
+/* TODO: Adjust the function for ID */
 
 Token funcID(string lexeme) {
   Token currentToken = {0};
@@ -417,7 +417,7 @@ Token funcID(string lexeme) {
 *   separate the lexemes. Remember also to incremente the line.
 ***********************************************************
 */
-/* TO_DO: Adjust the function for SL */
+/* TODO: Adjust the function for SL */
 
 Token funcSL(string lexeme) {
   Token currentToken = {0};
@@ -452,7 +452,7 @@ Token funcSL(string lexeme) {
 * - Tip: Remember to use the keywordTable to check the keywords.
 ***********************************************************
 */
-/* TO_DO: Adjust the function for Keywords */
+/* TODO: Adjust the function for Keywords */
 
 Token funcKEY(string lexeme) {
   Token currentToken = {0};
@@ -482,7 +482,7 @@ Token funcKEY(string lexeme) {
 *   so remember to increment line.
 ***********************************************************
 */
-/* TO_DO: Adjust the function for Errors */
+/* TODO: Adjust the function for Errors */
 
 Token funcErr(string lexeme) {
   Token currentToken = {0};
@@ -583,5 +583,5 @@ void printScannerData(ScannerData scData) {
 }
 
 /*
-TO_DO: (If necessary): HERE YOU WRITE YOUR ADDITIONAL FUNCTIONS (IF ANY).
+TODO: (If necessary): HERE YOU WRITE YOUR ADDITIONAL FUNCTIONS (IF ANY).
 */

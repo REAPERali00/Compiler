@@ -32,7 +32,7 @@
 // ************************************************************
 // */
 //
-// /* TO_DO: Adjust the function header */
+// /* TODO: Adjust the function header */
 //
 // #ifndef COMPILERS_H_
 // #include "Compilers.h"
@@ -47,7 +47,7 @@
 //  * Process Parser
 //  ***********************************************************
 //  */
-// /* TO_DO: This is the function to start the parser - check your program
+// /* TODO: This is the function to start the parser - check your program
 // definition */
 //
 // nag_v startParser() {
@@ -65,7 +65,7 @@
 //  * Match Token
 //  ***********************************************************
 //  */
-// /* TO_DO: This is the main code for match - check your definition */
+// /* TODO: This is the main code for match - check your definition */
 // nag_v matchToken(nag_i tokenCode, nag_i tokenAttribute) {
 // 	nag_i matchFlag = 1;
 // 	switch (lookahead.code) {
@@ -95,7 +95,7 @@
 //  * Syncronize Error Handler
 //  ***********************************************************
 //  */
-// /* TO_DO: This is the function to handler error - adjust basically datatypes
+// /* TODO: This is the function to handler error - adjust basically datatypes
 // */ nag_v syncErrorHandler(nag_i syncTokenCode) { 	printError();
 // 	syntaxErrorNumber++;
 // 	while (lookahead.code != syncTokenCode) {
@@ -112,7 +112,7 @@
 //  * Print Error
 //  ***********************************************************
 //  */
-// /* TO_DO: This is the function to error printing - adjust basically datatypes
+// /* TODO: This is the function to error printing - adjust basically datatypes
 // */ nag_v printError() { 	Token t = lookahead; 	printf("%s%s%3d\n",
 // STR_LANGNAME, ": Syntax error:  Line:", line); 	printf("*****  Token code:%3d
 // Attribute: ", t.code); 	switch (t.code) { 	case ERR_T: 		printf("*ERROR*: %s\n",
@@ -291,7 +291,7 @@
 //
 //
 //
-// /* TO_DO: Continue the development (all non-terminal functions) */
+// /* TODO: Continue the development (all non-terminal functions) */
 //
 // /*
 //  ************************************************************

@@ -53,19 +53,22 @@ comments
 
 /* TODO: Define Token codes - Create your token classes */
 enum TOKENS {
-  ERR_T,  /*  0: Error token */
-  MNID_T, /*  1: Method name identifier token (start: &) */
-  INL_T,  /*  2: Integer literal token */
-  STR_T,  /*  3: String literal token */
-  LPR_T,  /*  4: Left parenthesis token */
-  RPR_T,  /*  5: Right parenthesis token */
-  LBR_T,  /*  6: Left brace token */
-  RBR_T,  /*  7: Right brace token */
-  KW_T,   /*  8: Keyword token */
-  EOS_T,  /*  9: End of statement (semicolon) */
-  RTE_T,  /* 10: Run-time error token */
-  SEOF_T, /* 11: Source end-of-file token */
-  CMT_T   /* 12: Comment token */
+  ERR_T,   /*  0: Error token */
+  MNID_T,  /*  1: Method name identifier token (start: &) */
+  INL_T,   /*  1: Integer literal token */
+  FLTL_T,  /*  1: Float literal token */
+  CHRL_T,  /*  1: Character literal token */
+  BOOLL_T, /*  1: Character literal token */
+  STRL_T,  /*  1: String literal token */
+  LPR_T,   /*  1: Left parenthesis token */
+  RPR_T,   /*  1: Right parenthesis token */
+  LBR_T,   /*  1: Left brace token */
+  RBR_T,   /*  1: Right brace token */
+  KW_T,    /*  1: Keyword token */
+  EOS_T,   /*  1: End of statement (semicolon) */
+  RTE_T,   /*  1: Run-time error token */
+  SEOF_T,  /*  1: Source end-of-file token */
+  CMT_T    /*  1: Comment token */
 };
 
 /* TODO: Define the list of keywords */
@@ -81,18 +84,18 @@ typedef enum SourceEndOfFile { SEOF_0, SEOF_255 } EofOperator;
 
 /* TODO: Data structures for declaring the token and its attributes */
 typedef union TokenAttribute {
-  int codeType;                 /* integer attributes accessor */
+  int codeType;                   /* integer attributes accessor */
   AriOperator arithmeticOperator; /* arithmetic operator attribute code */
   RelOperator relationalOperator; /* relational operator attribute code */
   LogOperator logicalOperator;    /* logical operator attribute code */
   EofOperator seofType;           /* source-end-of-file attribute code */
-  int intValue;                 /* integer literal attribute (value) */
-  int keywordIndex;             /* keyword index in the keyword table */
-  int contentString; /* string literal offset from the beginning of the
-  string
-                          literal buffer (stringLiteralTable->content) */
-  float floatValue;   /* floating-point literal attribute (value) */
-  char idLexeme[VID_LEN + 1];  /* variable identifier token attribute */
+  int intValue;                   /* integer literal attribute (value) */
+  int keywordIndex;               /* keyword index in the keyword table */
+  int contentString;          /* string literal offset from the beginning of the
+           string
+                                   literal buffer (stringLiteralTable->content) */
+  float floatValue;           /* floating-point literal attribute (value) */
+  char idLexeme[VID_LEN + 1]; /* variable identifier token attribute */
   char errLexeme[ERR_LEN + 1]; /* error token attribite */
 } TokenAttribute;
 
@@ -100,7 +103,7 @@ typedef union TokenAttribute {
 typedef struct idAttibutes {
   byte flags; /* Flags information */
   union {
-    int intValue;        /* Integer value */
+    int intValue;         /* Integer value */
     float floatValue;     /* Float value */
     string stringContent; /* String value */
     char charContent;
@@ -111,7 +114,7 @@ typedef struct idAttibutes {
 
 /* Token declaration */
 typedef struct Token {
-  int code;               /* token code */
+  int code;                 /* token code */
   TokenAttribute attribute; /* token attribute */
   IdAttibutes idAttribute;  /* not used in this scanner implementation - for
                                further use */
@@ -221,7 +224,7 @@ TODO: Adjust your functions'definitions
 
 /* Static (local) function  prototypes */
 int startScanner(ReaderPointer psc_buf);
-static int nextClass(char c);      /* character class function */
+static int nextClass(char c);    /* character class function */
 static int nextState(int, char); /* state machine function */
 void printScannerData(ScannerData scData);
 Token tokenizer(void);
@@ -269,23 +272,13 @@ Language keywords
 */
 
 /* TODO: Define the number of Keywords from the language */
-#define KWT_SIZE 12
+#define KWT_SIZE 16
 
 /* TODO: Define the list of keywords */
 static string keywordTable[KWT_SIZE] = {
-    "main",    /* KW00 */
-    "data",    /* KW01 */
-    "code",    /* KW02 */
-    "num",     /* KW03 */
-    "real",    /* KW04 */
-    "string",  /* KW05 */
-    "char",    /* KW06 */
-    "if",      /* KW07 */
-    "else if", /* KW08 */
-    "else",    /* KW09 */
-    "during",  /* KW10 */
-    "do"       /* KW11 */
-};
+    "main", /* KW00 */
+    "if",     "else", "elif",  "for",    "while", "continue", "break", "def",
+    "return", "int",  "float", "string", "char",  "bool",     "class"};
 
 /* NEW SECTION: About indentation */
 

@@ -105,7 +105,7 @@ ReaderPointer readerCreate(int size, int increment, int mode) {
 *   ch = char to be added
 * Return value:
 *	readerPointer (pointer to Buffer Reader)
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
@@ -170,7 +170,7 @@ ReaderPointer readerAddChar(ReaderPointer const readerPointer, char ch) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	Boolean value about operation success
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
@@ -201,7 +201,7 @@ bool readerClear(ReaderPointer const readerPointer) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	Boolean value about operation success
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
@@ -224,7 +224,7 @@ bool readerFree(ReaderPointer const readerPointer) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	Boolean value about operation success
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
@@ -248,7 +248,7 @@ bool readerIsFull(ReaderPointer const readerPointer) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	Boolean value about operation success
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
@@ -270,7 +270,7 @@ bool readerIsEmpty(ReaderPointer const readerPointer) {
 *   mark = mark position for char
 * Return value:
 *	Boolean value about operation success
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
@@ -291,7 +291,7 @@ bool readerSetMark(ReaderPointer const readerPointer, int mark) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	Number of chars printed.
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
@@ -321,7 +321,7 @@ int readerPrint(ReaderPointer const readerPointer) {
 *   fileDescriptor = pointer to file descriptor
 * Return value:
 *	Number of chars read and put in buffer.
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
@@ -354,7 +354,7 @@ int readerLoad(ReaderPointer const readerPointer,
 *   readerPointer = pointer to Buffer Reader
 * Return value
 *	Boolean value about operation success
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
@@ -378,7 +378,7 @@ bool readerRecover(ReaderPointer const readerPointer) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	Boolean value about operation success
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
@@ -402,7 +402,7 @@ bool readerRetract(ReaderPointer const readerPointer) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	Boolean value about operation success
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
@@ -423,14 +423,14 @@ bool readerRestore(ReaderPointer const readerPointer) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	Char in the getC position.
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
 char readerGetChar(ReaderPointer const readerPointer) {
-  /* TO_DO: Defensive programming */
+  /* TODO: Defensive programming */
   if (!readerPointer)
     return '\0';
 
@@ -456,7 +456,7 @@ char readerGetChar(ReaderPointer const readerPointer) {
 *   pos = position to get the pointer
 * Return value:
 *	Position of string char.
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
@@ -476,17 +476,17 @@ string readerGetContent(ReaderPointer const readerPointer, int pos) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	The read position offset.
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
 *************************************************************
 */
 int readerGetPosRead(ReaderPointer const readerPointer) {
-  /* TO_DO: Defensive programming */
+  /* TODO: Defensive programming */
   if (!readerPointer)
     return 0;
-  /* TO_DO: Return read */
+  /* TODO: Return read */
   return readerPointer->position.read;
 }
 
@@ -498,7 +498,7 @@ int readerGetPosRead(ReaderPointer const readerPointer) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	Write position
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
@@ -507,7 +507,7 @@ int readerGetPosRead(ReaderPointer const readerPointer) {
 int readerGetPosWrte(ReaderPointer const readerPointer) {
   if (!readerPointer)
     return 0;
-  /* TO_DO: Return read */
+  /* TODO: Return read */
   return readerPointer->position.write;
 }
 
@@ -519,7 +519,7 @@ int readerGetPosWrte(ReaderPointer const readerPointer) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	Mark position.
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
@@ -528,7 +528,7 @@ int readerGetPosWrte(ReaderPointer const readerPointer) {
 int readerGetPosMark(ReaderPointer const readerPointer) {
   if (!readerPointer)
     return 0;
-  /* TO_DO: Return read */
+  /* TODO: Return read */
   return readerPointer->position.mark;
 }
 
@@ -540,7 +540,7 @@ int readerGetPosMark(ReaderPointer const readerPointer) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	Size of buffer.
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
@@ -560,7 +560,7 @@ int readerGetSize(ReaderPointer const readerPointer) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	The Buffer increment.
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
@@ -580,7 +580,7 @@ int readerGetInc(ReaderPointer const readerPointer) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	Operational mode.
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
@@ -600,7 +600,7 @@ int readerGetMode(ReaderPointer const readerPointer) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	Flags from Buffer.
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
@@ -620,7 +620,7 @@ byte readerGetFlags(ReaderPointer const readerPointer) {
 *   readerPointer = pointer to Buffer Reader
 * Return value:
 *	Number of chars.
-* TO_DO:
+* TODO:
 *   - Use defensive programming
 *	- Check boundary conditions
 *	- Adjust for your LANGUAGE.
