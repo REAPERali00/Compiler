@@ -49,32 +49,33 @@ comments
 #define RTE_CODE 1 /* Value for run-time error */
 
 /* TODO: Define the number of tokens */
-#define NUM_TOKENS 13
+#define NUM_TOKENS 16
 
 /* TODO: Define Token codes - Create your token classes */
 enum TOKENS {
   ERR_T,   /*  0: Error token */
-  MNID_T,  /*  1: Method name identifier token (start: &) */
-  INL_T,   /*  1: Integer literal token */
-  FLTL_T,  /*  1: Float literal token */
-  CHRL_T,  /*  1: Character literal token */
-  BOOLL_T, /*  1: Character literal token */
-  STRL_T,  /*  1: String literal token */
-  LPR_T,   /*  1: Left parenthesis token */
-  RPR_T,   /*  1: Right parenthesis token */
-  LBR_T,   /*  1: Left brace token */
-  RBR_T,   /*  1: Right brace token */
-  KW_T,    /*  1: Keyword token */
-  EOS_T,   /*  1: End of statement (semicolon) */
-  RTE_T,   /*  1: Run-time error token */
-  SEOF_T,  /*  1: Source end-of-file token */
-  CMT_T    /*  1: Comment token */
+  MNID_T,  /*  1: Method name identifier token  */
+  INL_T,   /*  2: Integer literal token */
+  FLTL_T,  /*  3: Float literal token */
+  CHRL_T,  /*  4: Character literal token */
+  BOOLL_T, /*  5: Boolean literal token */
+  STRL_T,  /*  6: String literal token */
+  LPR_T,   /*  7: Left parenthesis token */
+  RPR_T,   /*  8: Right parenthesis token */
+  LBR_T,   /*  9: Left brace token */
+  RBR_T,   /*  10: Right brace token */
+  KW_T,    /*  11: Keyword token */
+  EOS_T,   /*  12: End of statement (semicolon) */
+  RTE_T,   /*  13: Run-time error token */
+  SEOF_T,  /*  14: Source end-of-file token */
+  CMT_T    /*  15: Comment token */
 };
 
 /* TODO: Define the list of keywords */
 static string tokenStrTable[NUM_TOKENS] = {
-    "ERR_T", "MNID_T", "INL_T", "STR_T", "LPR_T",  "RPR_T", "LBR_T",
-    "RBR_T", "KW_T",   "EOS_T", "RTE_T", "SEOF_T", "CMT_T"};
+    "ERR_T",  "MNID_T", "INL_T",  "FLTL_T", "CHRL_T", "BOOLL_T",
+    "STRL_T", "LPR_T",  "RPR_T",  "LBR_T",  "RBR_T",  "KW_T",
+    "EOS_T",  "RTE_T",  "SEOF_T", "CMT_T"};
 
 /* TODO: Operators token attributes */
 typedef enum ArithmeticOperators { OP_ADD, OP_SUB, OP_MUL, OP_DIV } AriOperator;
@@ -82,7 +83,16 @@ typedef enum RelationalOperators { OP_EQ, OP_NE, OP_GT, OP_LT } RelOperator;
 typedef enum LogicalOperators { OP_AND, OP_OR, OP_NOT } LogOperator;
 typedef enum SourceEndOfFile { SEOF_0, SEOF_255 } EofOperator;
 
+typedef enum Variable_ID {
+  VAR_INT,
+  VAR_BOOL,
+  VAR_CHAR,
+  VAR_STRING,
+  VAR_FLOAT
+} Variable_ID;
+
 /* TODO: Data structures for declaring the token and its attributes */
+// TODO: are the values for literals supposed to be here or in the id attribute?
 typedef union TokenAttribute {
   int codeType;                   /* integer attributes accessor */
   AriOperator arithmeticOperator; /* arithmetic operator attribute code */
@@ -90,17 +100,18 @@ typedef union TokenAttribute {
   LogOperator logicalOperator;    /* logical operator attribute code */
   EofOperator seofType;           /* source-end-of-file attribute code */
   int intValue;                   /* integer literal attribute (value) */
-  int keywordIndex;               /* keyword index in the keyword table */
-  int contentString;          /* string literal offset from the beginning of the
-           string
-                                   literal buffer (stringLiteralTable->content) */
-  float floatValue;           /* floating-point literal attribute (value) */
-  char idLexeme[VID_LEN + 1]; /* variable identifier token attribute */
+  float floatValue;               /* floating-point literal attribute (value) */
+  bool boolValue;                 /* boolean literal attribute (value) */
+  char charValue;                 /* character literal attribute (value) */
+  int contentString; /* string literal offset from the beginning of the string
+                        literal buffer (stringLiteralTable->content) */
+  int keywordIndex;  /* keyword index in the keyword table */
+  char idLexeme[VID_LEN + 1];  /* variable identifier token attribute */
   char errLexeme[ERR_LEN + 1]; /* error token attribite */
 } TokenAttribute;
 
-/* TODO: Should be used if no symbol table is implemented */
 typedef struct idAttibutes {
+  /* TODO: Should be used if no symbol table is implemented */
   byte flags; /* Flags information */
   union {
     int intValue;         /* Integer value */
@@ -131,14 +142,13 @@ typedef struct scannerData {
 #define CHARSEOF0 '\0'
 #define CHARSEOF255 0xFF
 
-/*  Special case tokens processed separately one by one in the token-driven
-part
- * of the scanner: LPR_T, RPR_T, LBR_T, RBR_T, EOS_T, SEOF_T and special
- chars
+/*  Special case tokens processed separately one by one in the token-driven part
+ * of the scanner: LPR_T, RPR_T, LBR_T, RBR_T, EOS_T, SEOF_T and special chars
  * used for tokenis include _, & and ' */
 
 /* TODO: Define lexeme FIXED classes */
 /* These constants will be used on nextClass */
+// TODO: delete these and keep only necessary
 #define CHRCOL0 '#'
 #define CHRCOL1 '{'
 #define CHRCOL2 '}'

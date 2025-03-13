@@ -304,7 +304,7 @@ int nextClass(char c) {
     val = 6;
     break;
   case CHARSEOF0:
-  case CHARSEOF255:
+    // case CHARSEOF255:
     val = 5;
     break;
   default:
@@ -441,7 +441,7 @@ Token funcSL(string lexeme) {
     errorNumber = RTE_CODE;
     return currentToken;
   }
-  currentToken.code = STR_T;
+  currentToken.code = STRL_T;
   scData.scanHistogram[currentToken.code]++;
   return currentToken;
 }
@@ -529,7 +529,7 @@ void printToken(Token t) {
   case MNID_T:
     printf("MNID_T\t\t%s\n", t.attribute.idLexeme);
     break;
-  case STR_T:
+  case STRL_T:
     printf("STR_T\t\t%d\t ", (int)t.attribute.codeType);
     printf("%s\n",
            readerGetContent(stringLiteralTable, (int)t.attribute.codeType));
